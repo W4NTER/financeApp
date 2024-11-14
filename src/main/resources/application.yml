@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: financeApp
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: none
+  datasource:
+    url: jdbc:postgresql://localhost:5450/financeApp_db
+    username: postgres
+    password: postgres
+
+logging:
+  level:
+    org:
+      hibernate: DEBUG
+      springframework: DEBUG
+
