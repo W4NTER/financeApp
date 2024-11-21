@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: finance
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+  datasource:
+    username: postgres
+    password: postgres
+    url: jdbc:postgresql://localhost:5450/financeApp_db
+  liquibase:
+    enabled: false
+    change-log: liquibase/master.xml
+
+server:
+  port: 3000
