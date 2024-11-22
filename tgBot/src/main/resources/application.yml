@@ -1,0 +1,9 @@
+app:
+  telegram-token: ${TELEGRAM_API_KEY}
+
+spring:
+  application:
+    name: tgBot
+
+server:
+  port: 8090
