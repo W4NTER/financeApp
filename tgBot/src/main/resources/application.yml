@@ -4,6 +4,20 @@ app:
 spring:
   application:
     name: tgBot
+  datasource:
+    url: jdbc:h2:mem:database
+    username: username
+    password: password
+    driverClassName: org.h2.Driver
+    jpa:
+      database-platform: org.hibernate.dialect.H2Dialect
+      defer-datasource-initialization: true
+    sql:
+      init:
+        mode: always
+    h2:
+      console:
+        enabled: true
 
 server:
   port: 8090

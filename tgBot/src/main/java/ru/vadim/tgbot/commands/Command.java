@@ -1,6 +1,5 @@
 package ru.vadim.tgbot.commands;
 
-import com.pengrad.telegrambot.model.BotCommand;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import org.springframework.stereotype.Component;
@@ -11,15 +10,11 @@ public interface Command {
 
     String description();
 
-    String post();
-
-    SendMessage handle(Update update);
-
-    default boolean supports() {
-        return false;
+    default String post() {
+        return description();
     }
 
-    default BotCommand toApiCommand() {
-        return new BotCommand(command(), post());
+    default SendMessage handle(Update update) {
+        return new SendMessage(update.message().chat().id(), post());
     }
 }
