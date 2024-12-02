@@ -2,11 +2,9 @@ spring:
   application:
     name: finance
   jpa:
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
+    show-sql: true
   datasource:
     username: postgres
     password: postgres

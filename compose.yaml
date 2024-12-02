@@ -19,7 +19,7 @@ services:
     command:
       - --changelog-file=master.xml
       - --driver=org.postgresql.Driver
-      - --url=jdbc:postgresql://localhost:5432/financeApp_db
+      - --url=jdbc:postgresql://postgresql:5432/financeApp_db
       - --username=postgres
       - --password=postgres
       - update
