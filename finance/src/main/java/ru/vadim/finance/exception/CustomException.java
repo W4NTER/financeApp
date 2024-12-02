@@ -1,5 +1,6 @@
 package ru.vadim.finance.exception;
 
+@SuppressWarnings({"MutableException"})
 public class CustomException extends RuntimeException {
     private ExceptionType exceptionType;
     private String message;
