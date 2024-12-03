@@ -22,7 +22,6 @@ public class BotImpl implements Bot {
     private final ExecutorService executorService = Executors.newFixedThreadPool(4);
     private static final int GET_UPDATES_LIMIT = 100;
     private static final int GET_UPDATES_TIMEOUT = 0;
-    private static final int THREAD_SLEEP_TIME_IN_MILLIS = 10;
 
     public BotImpl(UserMessageProcessor userMessageProcessor) {
         this.userMessageProcessor = userMessageProcessor;
@@ -33,25 +32,19 @@ public class BotImpl implements Bot {
         LOGGER.info("bot running");
         int lastUpdateId = 0;
         while (true) {
-            try {
-                GetUpdatesResponse response =
-                        bot.execute(new GetUpdates()
-                                .limit(GET_UPDATES_LIMIT)
-                                .timeout(GET_UPDATES_TIMEOUT)
-                                .offset(++lastUpdateId));
-                if (response.isOk()) {
-                    List<Update> updates = response.updates();
-                    if (updates.isEmpty()) {
-                        continue;
-                    }
-                    lastUpdateId = updates.getLast().updateId();
-
-                    executorService.submit(() -> sendResponses(updates));
-
+            GetUpdatesResponse response =
+                    bot.execute(new GetUpdates()
+                            .limit(GET_UPDATES_LIMIT)
+                            .timeout(GET_UPDATES_TIMEOUT)
+                            .offset(++lastUpdateId));
+            if (response.isOk()) {
+                List<Update> updates = response.updates();
+                if (updates.isEmpty()) {
+                    continue;
                 }
-                Thread.sleep(THREAD_SLEEP_TIME_IN_MILLIS);
-            } catch (InterruptedException e) {
-                LOGGER.info(e.getMessage());
+                lastUpdateId = updates.getLast().updateId();
+
+                executorService.submit(() -> sendResponses(updates));
             }
         }
     }
@@ -66,7 +59,7 @@ public class BotImpl implements Bot {
         }
     }
 
-        @Override
+    @Override
     public void close() throws Exception {
         LOGGER.info("Bot stopped");
         executorService.shutdown();
