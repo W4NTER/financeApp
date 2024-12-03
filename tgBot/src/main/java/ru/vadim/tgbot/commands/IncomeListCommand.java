@@ -1,17 +1,23 @@
 package ru.vadim.tgbot.commands;
 
 import org.springframework.stereotype.Component;
+import ru.vadim.tgbot.state.StateType;
 
 @Component
 public class IncomeListCommand implements Command {
 
     @Override
     public String command() {
-        return "/incomeList";
+        return "Список доходов";
     }
 
     @Override
     public String description() {
-        return "Список доходов";
+        return "Здесь будет список доходов";
+    }
+
+    @Override
+    public StateType state() {
+        return StateType.INCOME_LIST;
     }
 }

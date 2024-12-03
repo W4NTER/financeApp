@@ -1,4 +1,4 @@
-package ru.vadim.tgbot.bot;
+package ru.vadim.tgbot.bot.impl;
 
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Update;
@@ -7,6 +7,7 @@ import com.pengrad.telegrambot.response.GetUpdatesResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
+import ru.vadim.tgbot.bot.Bot;
 import ru.vadim.tgbot.processor.UserMessageProcessor;
 
 import java.util.List;
@@ -65,7 +66,7 @@ public class BotImpl implements Bot {
         }
     }
 
-    @Override
+        @Override
     public void close() throws Exception {
         LOGGER.info("Bot stopped");
         executorService.shutdown();

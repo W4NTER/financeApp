@@ -4,19 +4,19 @@ import org.springframework.stereotype.Component;
 import ru.vadim.tgbot.state.StateType;
 
 @Component
-public class AddOutcomeCommand implements Command {
+public class OutcomeCommand implements Command {
     @Override
     public String command() {
-        return "Добавить трату";
+        return "Расходы";
     }
 
     @Override
     public String description() {
-        return "Добавление расхода";
+        return "Выберите действие";
     }
 
     @Override
     public StateType state() {
-        return StateType.ADD_OUTCOME;
+        return StateType.OUTCOME;
     }
 }
