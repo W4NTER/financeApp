@@ -12,7 +12,7 @@ public class AddIncomeCommand implements Command {
 
     @Override
     public String description() {
-        return "Введите сумму и название товара";
+        return "Введите название и сумму операции в формате:\n<название>-<сумма>";
     }
 
     @Override

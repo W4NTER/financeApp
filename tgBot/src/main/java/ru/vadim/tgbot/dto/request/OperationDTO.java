@@ -1,6 +1,6 @@
-package ru.vadim.finance.dto.request;
+package ru.vadim.tgbot.dto.request;
 
-public record OperationRequestDTO(
+public record OperationDTO(
         String type,
         Integer sum,
         Long categoryId,

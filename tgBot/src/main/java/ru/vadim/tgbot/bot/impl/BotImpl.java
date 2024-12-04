@@ -2,7 +2,9 @@ package ru.vadim.tgbot.bot.impl;
 
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Update;
+import com.pengrad.telegrambot.request.BaseRequest;
 import com.pengrad.telegrambot.request.GetUpdates;
+import com.pengrad.telegrambot.response.BaseResponse;
 import com.pengrad.telegrambot.response.GetUpdatesResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,6 +27,11 @@ public class BotImpl implements Bot {
 
     public BotImpl(UserMessageProcessor userMessageProcessor) {
         this.userMessageProcessor = userMessageProcessor;
+    }
+
+    @Override
+    public <T extends BaseRequest<T, R>, R extends BaseResponse> void execute(BaseRequest<T, R> request) {
+        bot.execute(request);
     }
 
     @Override

@@ -22,6 +22,9 @@ public class Operation {
     @Column(name = "type")
     private String type;
 
+    @Column(name = "title")
+    private String title;
+
     @Column(name = "sum")
     private Integer sum;
 
@@ -34,10 +37,16 @@ public class Operation {
     private Category category;
 
 
-    public Operation(String type, Integer sum, OffsetDateTime createdAt, Category category) {
+    public Operation(
+            String type,
+            Integer sum,
+            OffsetDateTime createdAt,
+            Category category,
+            String title) {
         this.type = type;
         this.sum = sum;
         this.createdAt = createdAt;
         this.category = category;
+        this.title = title;
     }
 }

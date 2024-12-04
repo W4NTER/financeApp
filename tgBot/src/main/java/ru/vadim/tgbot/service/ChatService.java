@@ -6,5 +6,5 @@ import ru.vadim.tgbot.state.StateType;
 public interface ChatService {
     Chat findOrCreateChat(Long chatId);
 
-    Chat setState(Chat chat, StateType state);
+    String setState(Long chatId, StateType state);
 }

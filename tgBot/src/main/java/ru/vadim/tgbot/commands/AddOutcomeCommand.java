@@ -12,7 +12,7 @@ public class AddOutcomeCommand implements Command {
 
     @Override
     public String description() {
-        return "Добавление расхода";
+        return "Введите название и сумму операции в формате:\n<название>-<сумма>";
     }
 
     @Override

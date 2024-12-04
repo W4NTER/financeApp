@@ -1,7 +1,11 @@
 package ru.vadim.finance.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import ru.vadim.finance.client.BotClient;
+import ru.vadim.finance.dto.request.LimitNotificationRequest;
 import ru.vadim.finance.dto.request.OperationRequestDTO;
 import ru.vadim.finance.dto.response.OperationResponseDTO;
 import ru.vadim.finance.entity.Category;
@@ -15,31 +19,53 @@ import java.time.OffsetDateTime;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class OperationServiceImpl implements OperationService {
     private final OperationRepository operationRepository;
     private final CategoryRepository categoryRepository;
     private final ObjectMapper objectMapper;
+    private final BotClient botClient;
     private static final Long MONTHS_TO_BE_LATE = 1L;
-
-    public OperationServiceImpl(
-            OperationRepository operationRepository,
-            CategoryRepository categoryRepository,
-            ObjectMapper objectMapper) {
-        this.operationRepository = operationRepository;
-        this.categoryRepository = categoryRepository;
-        this.objectMapper = objectMapper;
-    }
+    private static final String OPERATION_TYPE = "OUTCOME";
 
     @Override
+    @Transactional
     public OperationResponseDTO add(OperationRequestDTO operation) {
+        var category = categoryRepository.findById(operation.categoryId())
+                .orElseThrow(() -> new EntityNotFoundException(Category.class.getSimpleName()));
+        calculateCategoryLimit(category, operation);
         return objectMapper.convertValue(operationRepository.save(
                 new Operation(
                         operation.type(),
                         operation.sum(),
                         OffsetDateTime.now(),
                         categoryRepository.findById(operation.categoryId())
-                                .orElseThrow(() -> new EntityNotFoundException(Category.class.getSimpleName()))
+                                .orElseThrow(() -> new EntityNotFoundException(Category.class.getSimpleName())),
+                        operation.title()
                 )), OperationResponseDTO.class);
+    }
+
+    private void calculateCategoryLimit(Category category, OperationRequestDTO operation) {
+        var limit = category.getLimit();
+        if (limit != null && limit != 0) {
+            if (operation.type().equals(OPERATION_TYPE)) {
+                limit -= operation.sum();
+            } else {
+                limit += operation.sum();
+            }
+            if (limit < 0) {
+                limit = 0;
+                botClient.sendLimitNotification(
+                        new LimitNotificationRequest(
+                                category.getChat().getChatId(),
+                                category.getCategoryId(),
+                                category.getTitle()
+                        )
+                );
+                category.setLimit(limit);
+                categoryRepository.save(category);
+            }
+        }
     }
 
     @Override

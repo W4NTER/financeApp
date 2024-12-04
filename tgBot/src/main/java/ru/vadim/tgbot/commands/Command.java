@@ -18,11 +18,11 @@ public interface Command {
 
     StateType state();
 
-
     default ReplyKeyboardMarkup menu() {
         LOGGER.info("set keyboard menu");
         LOGGER.info(Arrays.toString(state().getSubMenuItems()));
-        return new ReplyKeyboardMarkup(state().getSubMenuItems(), MAIN_MENU_ARR).resizeKeyboard(RESIZE_KEYBOARD);
+        return new ReplyKeyboardMarkup(state().getSubMenuItems(), MAIN_MENU_ARR)
+                .resizeKeyboard(RESIZE_KEYBOARD);
     }
 
     default String post() {

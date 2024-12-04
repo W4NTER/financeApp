@@ -2,11 +2,11 @@ package ru.vadim.tgbot.service.impl;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.vadim.tgbot.Constants;
 import ru.vadim.tgbot.entity.Chat;
 import ru.vadim.tgbot.repository.ChatRepository;
 import ru.vadim.tgbot.service.ChatService;
 import ru.vadim.tgbot.state.StateType;
+
 import static ru.vadim.tgbot.Constants.LOGGER;
 
 @Service
@@ -32,10 +32,10 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     @Transactional
-    public Chat setState(Chat chat, StateType state) {
-        Chat chatObj = chatRepository.findChatByChatId(chat.getChatId()).get();
+    public String setState(Long chatId, StateType state) {
+        Chat chatObj = chatRepository.findChatByChatId(chatId).get();
         chatObj.setState(state.toString());
-        Constants.LOGGER.info(String.format("set state to %s", state));
-        return chatRepository.save(chat);
+        LOGGER.info(String.format("set state to %s", state));
+        return chatRepository.save(chatObj).getState();
     }
 }

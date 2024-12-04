@@ -1,28 +1,29 @@
 package ru.vadim.tgbot.state;
 
+import lombok.Getter;
+
+@Getter
 public enum StateType {
     MAIN_MENU(new String[]{"Категории", "Баланс", "Детализация"}),
+    CATEGORY_LIST(new String[]{}),
     CATEGORY(new String[]{"Добавить категорию", "Расходы", "Доходы", "Список операций"}),
-    CATEGORY_ADD(new String[]{}),
+    ADD_CATEGORY(CATEGORY.subMenuItems),
     OUTCOME(new String[]{"Список расходов", "Добавить трату"}),
-    OUTCOME_LIST(new String[]{}),
-    ADD_OUTCOME(new String[]{}),
+    OUTCOME_LIST(OUTCOME.subMenuItems),
+    ADD_OUTCOME(OUTCOME.subMenuItems),
     INCOME(new String[]{"Список доходов", "Добавить доход"}),
-    INCOME_LIST(new String[]{}),
-    ADD_INCOME(new String[]{}),
-    OPERATIONS(new String[]{}),
-    BALANCE(new String[]{}),
+    INCOME_LIST(INCOME.subMenuItems),
+    ADD_INCOME(INCOME.subMenuItems),
+    OPERATIONS(CATEGORY.subMenuItems),
+    BALANCE(MAIN_MENU.subMenuItems),
     ASSETS_LIABILITIES(new String[]{"Графики", "Excel документ"}),
     DIAGRAMS(new String[]{}),
-    EXCEL_DOC(new String[]{});
+    EXCEL_DOC(new String[]{}),
+    ADD_CATEGORY_LIMIT(new String[]{});
 
     private final String[] subMenuItems;
 
     StateType(String[] subMenuItems) {
         this.subMenuItems = subMenuItems;
-    }
-
-    public String[] getSubMenuItems() {
-        return subMenuItems;
     }
 }

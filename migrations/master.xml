@@ -13,7 +13,7 @@
 <!--        <changeSet id="init_table_operation" author="Vadim">-->
 <!--            <sqlFile path="sql/create_operation.sql" relativeToChangelogFile="true"/>-->
 <!--        </changeSet>-->
-        <changeSet id="change_tables_category_chat7" author="Vadim">
+        <changeSet id="change_tables_category_chat8" author="Vadim">
             <sqlFile path="sql/change_tables.sql" relativeToChangelogFile="true"/>
         </changeSet>
 </databaseChangeLog>

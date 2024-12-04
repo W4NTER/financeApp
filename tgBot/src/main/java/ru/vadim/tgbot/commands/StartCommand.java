@@ -4,12 +4,18 @@ import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
 import com.pengrad.telegrambot.request.SendMessage;
 import org.springframework.stereotype.Component;
+import ru.vadim.tgbot.client.FinanceAppWebClient;
 import ru.vadim.tgbot.state.StateType;
 
 import static ru.vadim.tgbot.Constants.*;
 
 @Component
 public class StartCommand implements Command {
+    private final FinanceAppWebClient financeAppWebClient;
+
+    public StartCommand(FinanceAppWebClient financeAppWebClient) {
+        this.financeAppWebClient = financeAppWebClient;
+    }
 
     @Override
     public String command() {
@@ -40,6 +46,8 @@ public class StartCommand implements Command {
 
     @Override
     public SendMessage handle(Update update) {
+        LOGGER.info(String.format("/start by %s", update.message().chat().id()));
+        financeAppWebClient.registerChat(update.message().chat().id());
         return new SendMessage(update.message().chat().id(), post()).replyMarkup(menu());
     }
 }
