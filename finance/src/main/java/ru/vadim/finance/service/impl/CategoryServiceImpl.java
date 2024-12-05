@@ -15,6 +15,7 @@ import ru.vadim.finance.repository.ChatRepository;
 import ru.vadim.finance.repository.OperationRepository;
 import ru.vadim.finance.service.CategoryService;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @Service
@@ -35,22 +36,27 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryResponseDTO add(CategoryRequestDTO category) {
+    @Transactional
+    public CategoryResponseDTO add(CategoryRequestDTO category, Long chatId) {
         var categoryOptional =
-                categoryRepository.findByTitleAndChatId(category.title(), category.chatId());
+                categoryRepository.findByTitleAndChatId(category.title(), chatId);
         if (categoryOptional.isPresent()) {
             throw new EntityAlreadyExistsException(Category.class.getSimpleName());
         } else {
+            var limit = category.limit();
+            if (limit == null) {
+                limit = 0;
+            }
             return objectMapper.convertValue(
                     categoryRepository.save(
                             new Category(
                                     category.title(),
-                                    category.createdAt(),
-                                    category.updatedAt(),
-                                    chatRepository.findByChatId(category.chatId())
+                                    OffsetDateTime.now(),
+                                    OffsetDateTime.now(),
+                                    chatRepository.findByChatId(chatId)
                                             .orElseThrow(() ->
                                                     new EntityNotFoundException(Chat.class.getSimpleName())),
-                                    category.limit()
+                                    limit
 
                             )
                     ), CategoryResponseDTO.class);
@@ -60,9 +66,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     @Transactional
-    public void delete(CategoryRequestDTO category) {
+    public void delete(CategoryRequestDTO category, Long chatId) {
         Category categoryObj =
-                categoryRepository.findByTitleAndChatId(category.title(), category.chatId())
+                categoryRepository.findByTitleAndChatId(category.title(), chatId)
                         .orElseThrow(() -> new EntityNotFoundException(Category.class.getSimpleName()));
         List<Operation> operations = operationRepository.findAllByCategory(categoryObj);
 
@@ -79,10 +85,17 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     @Transactional
-    public CategoryResponseDTO setLimit(CategoryRequestDTO category) {
-        Category categoryObj = categoryRepository.findByTitleAndChatId(category.title(), category.chatId())
+    public CategoryResponseDTO setLimit(CategoryRequestDTO category, Long chatId) {
+        Category categoryObj = categoryRepository.findByTitleAndChatId(category.title(), chatId)
                 .orElseThrow(() -> new EntityNotFoundException(Category.class.getSimpleName()));
         categoryObj.setLimit(category.limit());
         return objectMapper.convertValue(categoryRepository.save(categoryObj), CategoryResponseDTO.class);
+    }
+
+    @Override
+    public CategoryResponseDTO findCategoryByTitleAndChatId(String title, Long chatId) {
+        return objectMapper.convertValue(
+                categoryRepository.findByTitleAndChatId(title, chatId),
+                CategoryResponseDTO.class);
     }
 }
