@@ -48,6 +48,7 @@ public class StartCommand implements Command {
     public SendMessage handle(Update update) {
         LOGGER.info(String.format("/start by %s", update.message().chat().id()));
         financeAppWebClient.registerChat(update.message().chat().id());
+        financeAppWebClient.addBalance(update.message().chat().id());
         return new SendMessage(update.message().chat().id(), post()).replyMarkup(menu());
     }
 }

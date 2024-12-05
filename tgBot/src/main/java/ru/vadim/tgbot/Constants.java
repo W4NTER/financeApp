@@ -17,4 +17,8 @@ public final class Constants {
             {"Добавить категорию", "Добавить лимит"},
             {"Список операций"},
             MAIN_MENU_ARR};
+    public static final String[][] BALANCE_MENU = {
+            {"Увеличить баланс", "Уменьшить баланс"},
+            {"Обнулить баланс"},
+            MAIN_MENU_ARR};
 }

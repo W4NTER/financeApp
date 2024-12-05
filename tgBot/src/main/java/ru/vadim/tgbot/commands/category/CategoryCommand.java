@@ -1,9 +1,8 @@
-package ru.vadim.tgbot.commands;
+package ru.vadim.tgbot.commands.category;
 
 import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
+import ru.vadim.tgbot.commands.Command;
 import ru.vadim.tgbot.state.StateType;
-
-import java.util.Arrays;
 
 import static ru.vadim.tgbot.Constants.*;
 

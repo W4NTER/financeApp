@@ -11,6 +11,7 @@ import ru.vadim.tgbot.client.FinanceAppWebClient;
 import ru.vadim.tgbot.commands.Command;
 import ru.vadim.tgbot.commands.handlers.CategoryCommandHandler;
 import ru.vadim.tgbot.dto.CategoryDTO;
+import ru.vadim.tgbot.dto.request.BalanceRequest;
 import ru.vadim.tgbot.dto.request.CategoryRequest;
 import ru.vadim.tgbot.dto.request.OperationDTO;
 import ru.vadim.tgbot.dto.response.CategoryResponse;
@@ -71,10 +72,36 @@ public class UserMessageProcessorImpl implements UserMessageProcessor {
             case "ADD_CATEGORY_LIMIT" -> {
                 return addCategoryLimit(update, chatId);
             }
+            case "INCREMENT_BALANCE" -> {
+                return incrementBalance(update, chatId);
+            }
+            case "DECREMENT_BALANCE" -> {
+                return decrementBalance(update, chatId);
+            }
             default -> {
                 LOGGER.info("no command find");
                 return new SendMessage(update.message().chat().id(), "Такой команды не существует");
             }
+        }
+    }
+
+    private SendMessage decrementBalance(Update update, Long chatId) {
+        try {
+            financeAppWebClient.decrementBalance(
+                    new BalanceRequest(chatId, Integer.parseInt(update.message().text())));
+            return new SendMessage(chatId, "Все записал, можно двигаться дальше");
+        } catch (Exception e) {
+            return new SendMessage(chatId, "Что-то пошло не так");
+        }
+    }
+
+    private SendMessage incrementBalance(Update update, Long chatId) {
+        try {
+            financeAppWebClient.incrementBalance(
+                    new BalanceRequest(chatId, Integer.parseInt(update.message().text())));
+            return new SendMessage(chatId, "Все записал, можно двигаться дальше");
+        } catch (Exception e) {
+            return new SendMessage(chatId, "Что-то пошло не так");
         }
     }
 

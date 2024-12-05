@@ -1,7 +1,7 @@
 package ru.vadim.tgbot.commands.handlers;
 
 import org.springframework.stereotype.Component;
-import ru.vadim.tgbot.commands.CategoryCommand;
+import ru.vadim.tgbot.commands.category.CategoryCommand;
 import ru.vadim.tgbot.commands.Command;
 
 @Component

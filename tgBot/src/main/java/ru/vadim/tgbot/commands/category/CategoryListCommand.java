@@ -1,4 +1,4 @@
-package ru.vadim.tgbot.commands;
+package ru.vadim.tgbot.commands.category;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -9,6 +9,7 @@ import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
 import com.pengrad.telegrambot.request.SendMessage;
 import org.springframework.stereotype.Component;
 import ru.vadim.tgbot.client.FinanceAppWebClient;
+import ru.vadim.tgbot.commands.Command;
 import ru.vadim.tgbot.dto.CategoryDTO;
 import ru.vadim.tgbot.state.StateType;
 

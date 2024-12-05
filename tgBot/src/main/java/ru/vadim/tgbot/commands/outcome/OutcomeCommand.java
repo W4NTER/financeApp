@@ -1,6 +1,7 @@
-package ru.vadim.tgbot.commands;
+package ru.vadim.tgbot.commands.outcome;
 
 import org.springframework.stereotype.Component;
+import ru.vadim.tgbot.commands.Command;
 import ru.vadim.tgbot.state.StateType;
 
 @Component

@@ -15,11 +15,14 @@ public enum StateType {
     INCOME_LIST(INCOME.subMenuItems),
     ADD_INCOME(INCOME.subMenuItems),
     OPERATIONS(CATEGORY.subMenuItems),
-    BALANCE(MAIN_MENU.subMenuItems),
+    BALANCE(new String[]{}),
     ASSETS_LIABILITIES(new String[]{"Графики", "Excel документ"}),
     DIAGRAMS(new String[]{}),
     EXCEL_DOC(new String[]{}),
-    ADD_CATEGORY_LIMIT(new String[]{});
+    ADD_CATEGORY_LIMIT(new String[]{}),
+    INCREMENT_BALANCE(BALANCE.subMenuItems),
+    DECREMENT_BALANCE(BALANCE.subMenuItems),
+    RESET_BALANCE(BALANCE.subMenuItems);
 
     private final String[] subMenuItems;
 
