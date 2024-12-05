@@ -8,6 +8,9 @@ import ru.vadim.tgbot.client.FinanceAppWebClient;
 import ru.vadim.tgbot.commands.Command;
 import ru.vadim.tgbot.state.StateType;
 
+import static ru.vadim.tgbot.constants.CommandsConstants.CHART_COMMAND;
+import static ru.vadim.tgbot.constants.CommandsConstants.CHART_COMMAND_DESCRIPTION;
+
 @Component
 @AllArgsConstructor
 public class ChartCommand implements Command {
@@ -15,12 +18,12 @@ public class ChartCommand implements Command {
 
     @Override
     public String command() {
-        return "Вывести график";
+        return CHART_COMMAND;
     }
 
     @Override
     public String description() {
-        return "Отправлю вам графики, как только они будут готовы";
+        return CHART_COMMAND_DESCRIPTION;
     }
 
     @Override

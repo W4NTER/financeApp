@@ -8,7 +8,7 @@ import ru.vadim.tgbot.dto.response.CategoryResponse;
 import ru.vadim.tgbot.entity.Category;
 import ru.vadim.tgbot.repository.CategoryRepository;
 import ru.vadim.tgbot.service.CategoryService;
-import static ru.vadim.tgbot.Constants.*;
+import static ru.vadim.tgbot.constants.Constants.*;
 
 @Service
 @AllArgsConstructor
@@ -21,7 +21,12 @@ public class CategoryServiceImpl implements CategoryService {
         var categoryOpt = categoryRepository.findCategoriesByChatId(chatId);
         if (categoryOpt.isEmpty()) {
             return objectMapper.convertValue(
-                    categoryRepository.save(new Category(chatId, category.categoryId(), category.title(), category.categoryLimit())),
+                    categoryRepository.save(
+                            new Category(
+                                    chatId,
+                                    category.categoryId(),
+                                    category.title(),
+                                    category.categoryLimit())),
             CategoryResponse.class);
         } else {
             var categoryObj = categoryOpt.get();

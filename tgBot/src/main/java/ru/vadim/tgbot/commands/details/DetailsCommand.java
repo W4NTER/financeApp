@@ -5,18 +5,20 @@ import org.springframework.stereotype.Component;
 import ru.vadim.tgbot.commands.Command;
 import ru.vadim.tgbot.state.StateType;
 
-import static ru.vadim.tgbot.Constants.DETAILS_MENU;
+import static ru.vadim.tgbot.constants.CommandsConstants.DETAILS_COMMAND;
+import static ru.vadim.tgbot.constants.CommandsConstants.DETAILS_COMMAND_DESCRIPTION;
+import static ru.vadim.tgbot.constants.Constants.DETAILS_MENU;
 
 @Component
 public class DetailsCommand implements Command {
     @Override
     public String command() {
-        return "Детализация";
+        return DETAILS_COMMAND;
     }
 
     @Override
     public String description() {
-        return "Детализация финансов";
+        return DETAILS_COMMAND_DESCRIPTION;
     }
 
     @Override

@@ -49,7 +49,7 @@ public class LiabilitiesAssetsWebClient {
     public String getResult(Long chatId) {
         return client
                 .get()
-                .uri(String.format("%s/%s",LIABILITIES_ASSETS_URI, RESULT_URI))
+                .uri(String.format("%s/%s", LIABILITIES_ASSETS_URI, RESULT_URI))
                 .header(HEADER_CHAT_ID, String.valueOf(chatId))
                 .retrieve()
                 .bodyToMono(String.class)

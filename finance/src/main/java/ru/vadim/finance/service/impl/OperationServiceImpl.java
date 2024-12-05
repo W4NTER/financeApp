@@ -75,7 +75,8 @@ public class OperationServiceImpl implements OperationService {
     @Override
     public Map<String, Map<String, Integer>> groupOperationsByDateAndType(Long categoryId) {
         List<Operation> operations = operationRepository.findAllByCategoryId(categoryId).stream()
-                .filter(operation -> !operation.getCreatedAt().isBefore(OffsetDateTime.now().minusMonths(MONTHS_TO_BE_LATE)))
+                .filter(operation -> !operation.getCreatedAt()
+                        .isBefore(OffsetDateTime.now().minusMonths(MONTHS_TO_BE_LATE)))
                 .toList();
 
         return operations.stream()

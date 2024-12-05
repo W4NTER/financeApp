@@ -4,16 +4,19 @@ import org.springframework.stereotype.Component;
 import ru.vadim.tgbot.commands.Command;
 import ru.vadim.tgbot.state.StateType;
 
+import static ru.vadim.tgbot.constants.CommandsConstants.INCREMENT_BALANCE_COMMAND;
+import static ru.vadim.tgbot.constants.CommandsConstants.INCREMENT_BALANCE_COMMAND_DESCRIPTION;
+
 @Component
 public class IncrementBalanceCommand implements Command {
     @Override
     public String command() {
-        return "Увеличить баланс";
+        return INCREMENT_BALANCE_COMMAND;
     }
 
     @Override
     public String description() {
-        return "Введите сумму, на которую нужно уменьшить баланс";
+        return INCREMENT_BALANCE_COMMAND_DESCRIPTION;
     }
 
     @Override

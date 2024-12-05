@@ -2,7 +2,6 @@ package ru.vadim.tgbot.commands.details.liabilitiesAssets;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
@@ -12,12 +11,13 @@ import org.springframework.stereotype.Component;
 import ru.vadim.tgbot.client.LiabilitiesAssetsWebClient;
 import ru.vadim.tgbot.commands.Command;
 import ru.vadim.tgbot.dto.request.LiabilitiesAssetsRequest;
-import ru.vadim.tgbot.dto.request.OperationDTO;
 import ru.vadim.tgbot.state.StateType;
 
 import java.util.List;
 
-import static ru.vadim.tgbot.Constants.*;
+import static ru.vadim.tgbot.constants.CommandsConstants.LIABILITIES_ASSETS_COMMAND_LIST_DESCRIPTION;
+import static ru.vadim.tgbot.constants.CommandsConstants.LIABILITIES_ASSETS_LIST_COMMAND;
+import static ru.vadim.tgbot.constants.Constants.*;
 
 @Component
 @AllArgsConstructor
@@ -27,12 +27,12 @@ public class LiabilitiesAssetsListCommand implements Command {
 
     @Override
     public String command() {
-        return "Список Активов/Пассивов";
+        return LIABILITIES_ASSETS_LIST_COMMAND;
     }
 
     @Override
     public String description() {
-        return "Список пуст";
+        return LIABILITIES_ASSETS_COMMAND_LIST_DESCRIPTION;
     }
 
     @Override

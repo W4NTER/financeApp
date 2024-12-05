@@ -4,16 +4,19 @@ import org.springframework.stereotype.Component;
 import ru.vadim.tgbot.commands.Command;
 import ru.vadim.tgbot.state.StateType;
 
+import static ru.vadim.tgbot.constants.CommandsConstants.OUTCOME_COMMAND;
+import static ru.vadim.tgbot.constants.CommandsConstants.OUTCOME_COMMAND_DESCRIPTION;
+
 @Component
 public class OutcomeCommand implements Command {
     @Override
     public String command() {
-        return "Расходы";
+        return OUTCOME_COMMAND;
     }
 
     @Override
     public String description() {
-        return "Выберите действие";
+        return OUTCOME_COMMAND_DESCRIPTION;
     }
 
     @Override

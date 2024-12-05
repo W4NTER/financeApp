@@ -14,7 +14,7 @@ public interface LiabilitiesAssetsRepository extends JpaRepository<LiabilitiesAs
     List<LiabilitiesAssets> findAllByChatId(@Param("chat_id") Long chatId);
 
     @Query("select o from LiabilitiesAssets o where o.chat.chatId = :chat_id and o.title = :title")
-    Optional<LiabilitiesAssets> findByTitleAndChatId(@Param("title") String title,@Param("chat_id") Long chatId);
+    Optional<LiabilitiesAssets> findByTitleAndChatId(@Param("title") String title, @Param("chat_id") Long chatId);
 
     @Modifying
     @Query("delete from LiabilitiesAssets o where o.chat.chatId = :chat_id")

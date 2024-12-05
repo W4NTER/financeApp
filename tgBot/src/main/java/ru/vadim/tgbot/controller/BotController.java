@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.vadim.tgbot.bot.Bot;
 import ru.vadim.tgbot.dto.request.ChartRequest;
 import ru.vadim.tgbot.dto.request.LimitNotificationRequest;
-import static ru.vadim.tgbot.Constants.LOGGER;
+import static ru.vadim.tgbot.constants.Constants.LOGGER;
 
 @RestController
 @AllArgsConstructor

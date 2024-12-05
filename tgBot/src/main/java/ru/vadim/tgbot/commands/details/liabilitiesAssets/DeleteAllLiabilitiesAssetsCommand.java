@@ -9,7 +9,9 @@ import ru.vadim.tgbot.client.LiabilitiesAssetsWebClient;
 import ru.vadim.tgbot.commands.Command;
 import ru.vadim.tgbot.state.StateType;
 
-import static ru.vadim.tgbot.Constants.ASSETS_LIABILITIES_MENU;
+import static ru.vadim.tgbot.constants.CommandsConstants.DELETE_ALL_LIABILITIES_ASSETS_COMMAND;
+import static ru.vadim.tgbot.constants.CommandsConstants.DELETE_ALL_LIABILITIES_ASSETS_COMMAND_DESCRIPTION;
+import static ru.vadim.tgbot.constants.Constants.ASSETS_LIABILITIES_MENU;
 
 @Component
 @AllArgsConstructor
@@ -18,12 +20,12 @@ public class DeleteAllLiabilitiesAssetsCommand implements Command {
 
     @Override
     public String command() {
-        return "Удалить все";
+        return DELETE_ALL_LIABILITIES_ASSETS_COMMAND;
     }
 
     @Override
     public String description() {
-        return "Все записи удалены";
+        return DELETE_ALL_LIABILITIES_ASSETS_COMMAND_DESCRIPTION;
     }
 
     @Override

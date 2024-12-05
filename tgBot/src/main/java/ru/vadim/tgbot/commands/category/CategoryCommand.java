@@ -4,7 +4,7 @@ import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
 import ru.vadim.tgbot.commands.Command;
 import ru.vadim.tgbot.state.StateType;
 
-import static ru.vadim.tgbot.Constants.*;
+import static ru.vadim.tgbot.constants.Constants.*;
 
 public class CategoryCommand implements Command {
     private final String category;

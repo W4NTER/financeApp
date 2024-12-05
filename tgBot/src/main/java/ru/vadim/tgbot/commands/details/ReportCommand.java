@@ -5,18 +5,20 @@ import org.springframework.stereotype.Component;
 import ru.vadim.tgbot.commands.Command;
 import ru.vadim.tgbot.state.StateType;
 
-import static ru.vadim.tgbot.Constants.REPORT_MENU;
+import static ru.vadim.tgbot.constants.CommandsConstants.REPORT_COMMAND;
+import static ru.vadim.tgbot.constants.CommandsConstants.REPORT_COMMAND_DESCRIPTION;
+import static ru.vadim.tgbot.constants.Constants.REPORT_MENU;
 
 @Component
 public class ReportCommand implements Command {
     @Override
     public String command() {
-        return "Отчеты";
+        return REPORT_COMMAND;
     }
 
     @Override
     public String description() {
-        return "Выберите формат отчета";
+        return REPORT_COMMAND_DESCRIPTION;
     }
 
     @Override

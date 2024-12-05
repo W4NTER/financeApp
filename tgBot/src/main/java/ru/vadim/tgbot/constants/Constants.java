@@ -1,4 +1,4 @@
-package ru.vadim.tgbot;
+package ru.vadim.tgbot.constants;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,6 +14,7 @@ public final class Constants {
     public static final String INCOME_TYPE = "INCOME";
     public static final String ASSET_TYPE = "ASSET";
     public static final String LIABILITY_TYPE = "LIABILITY";
+    public static final String FORMAT_FOR_LOGGING = "ChatId = %d, %s";
     public static final String[][] CATEGORY_MENU = {
             {"Доходы", "Расходы"},
             {"Список операций", "Добавить лимит"},
@@ -34,10 +35,7 @@ public final class Constants {
 
     public static final String[][] ASSETS_LIABILITIES_MENU = {
             {"Добавить пассив", "Добавить актив"},
-            {"Список Активов/Пассивов"},
+            {"Список активов и пассивов"},
             {"Рассчитать", "Удалить все"},
             MAIN_MENU_ARR};
-
-    public static final String WRITING_ANSWER_FROM_BOT = "Все записал, можно двигаться дальше";
-    public static final String SOMETHING_WRONG_ANSWER_FROM_BOT = "Что-то пошло не так";
 }

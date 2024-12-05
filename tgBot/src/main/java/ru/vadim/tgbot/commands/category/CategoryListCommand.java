@@ -8,6 +8,7 @@ import com.pengrad.telegrambot.model.request.KeyboardButton;
 import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
 import com.pengrad.telegrambot.request.SendMessage;
 import org.springframework.stereotype.Component;
+import ru.vadim.tgbot.client.CategoryWebClient;
 import ru.vadim.tgbot.client.FinanceAppWebClient;
 import ru.vadim.tgbot.commands.Command;
 import ru.vadim.tgbot.dto.CategoryDTO;
@@ -15,28 +16,30 @@ import ru.vadim.tgbot.state.StateType;
 
 import java.util.List;
 
-import static ru.vadim.tgbot.Constants.MAIN_MENU_ARR;
-import static ru.vadim.tgbot.Constants.RESIZE_KEYBOARD;
+import static ru.vadim.tgbot.constants.CommandsConstants.CATEGORY_LIST_COMMAND;
+import static ru.vadim.tgbot.constants.CommandsConstants.CATEGORY_LIST_COMMAND_DESCRIPTION;
+import static ru.vadim.tgbot.constants.Constants.MAIN_MENU_ARR;
+import static ru.vadim.tgbot.constants.Constants.RESIZE_KEYBOARD;
 
 @Component
 public class CategoryListCommand implements Command {
-    private final FinanceAppWebClient financeAppWebClient;
+    private final CategoryWebClient categoryWebClient;
     private final ObjectMapper objectMapper;
     private KeyboardButton[][] buttons;
 
-    public CategoryListCommand(FinanceAppWebClient financeAppWebClient, ObjectMapper objectMapper) {
-        this.financeAppWebClient = financeAppWebClient;
+    public CategoryListCommand(CategoryWebClient categoryWebClient, ObjectMapper objectMapper) {
+        this.categoryWebClient = categoryWebClient;
         this.objectMapper = objectMapper;
     }
 
     @Override
     public String command() {
-        return "Категории";
+        return CATEGORY_LIST_COMMAND;
     }
 
     @Override
     public String description() {
-        return "Выберите категорию или добавьте новую";
+        return CATEGORY_LIST_COMMAND_DESCRIPTION;
     }
 
     @Override
@@ -58,7 +61,7 @@ public class CategoryListCommand implements Command {
     public SendMessage handle(Update update) {
         try {
             List<CategoryDTO> categories = objectMapper.readValue(
-                    financeAppWebClient.allCategoriesOfChat(update.message().chat().id()),
+                    categoryWebClient.allCategoriesOfChat(update.message().chat().id()),
                     new TypeReference<>() {});
             buttons = categories.stream()
                     .map(category -> new KeyboardButton[]{new KeyboardButton(category.title())})

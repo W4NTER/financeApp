@@ -29,6 +29,8 @@ public class ChartServiceImpl implements ChartService {
     private final CategoryService categoryService;
     private final OperationService operationService;
     private final BotClient botClient;
+    private static final int WIDTH = 800;
+    private static final int HEIGHT = 600;
 
     @SneakyThrows
     @Override
@@ -65,12 +67,13 @@ public class ChartServiceImpl implements ChartService {
         plot.setRangeGridlinePaint(Color.BLACK);
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        ChartUtils.writeChartAsPNG(byteArrayOutputStream, chart, 800, 600);
+        ChartUtils.writeChartAsPNG(byteArrayOutputStream, chart, WIDTH, HEIGHT);
 
         botClient.sendChart(new ChartRequest(chatId, byteArrayOutputStream.toByteArray()));
     }
 
-    private static @NotNull DefaultCategoryDataset getDefaultCategoryDataset(Map<String, Map<String, Integer>> groupedOperations) {
+    private static DefaultCategoryDataset getDefaultCategoryDataset(
+            Map<String, Map<String, Integer>> groupedOperations) {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
         for (Map.Entry<String, Map<String, Integer>> entry : groupedOperations.entrySet()) {

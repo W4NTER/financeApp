@@ -7,7 +7,7 @@ import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
-import ru.vadim.tgbot.client.FinanceAppWebClient;
+import ru.vadim.tgbot.client.OperationsWebClient;
 import ru.vadim.tgbot.commands.Command;
 import ru.vadim.tgbot.dto.request.OperationDTO;
 import ru.vadim.tgbot.service.CategoryService;
@@ -15,24 +15,26 @@ import ru.vadim.tgbot.state.StateType;
 
 import java.util.List;
 
-import static ru.vadim.tgbot.Constants.INCOME_TYPE;
-import static ru.vadim.tgbot.Constants.LOGGER;
+import static ru.vadim.tgbot.constants.CommandsConstants.INCOME_LIST_COMMAND;
+import static ru.vadim.tgbot.constants.CommandsConstants.INCOME_LIST_COMMAND_DESCRIPTION;
+import static ru.vadim.tgbot.constants.Constants.INCOME_TYPE;
+import static ru.vadim.tgbot.constants.Constants.LOGGER;
 
 @Component
 @AllArgsConstructor
 public class IncomeListCommand implements Command {
     private final CategoryService categoryService;
-    private final FinanceAppWebClient financeAppWebClient;
+    private final OperationsWebClient operationsWebClient;
     private final ObjectMapper objectMapper;
 
     @Override
     public String command() {
-        return "Список доходов";
+        return INCOME_LIST_COMMAND;
     }
 
     @Override
     public String description() {
-        return "Список дрходов";
+        return INCOME_LIST_COMMAND_DESCRIPTION;
     }
 
     @Override
@@ -47,7 +49,7 @@ public class IncomeListCommand implements Command {
         LOGGER.info(String.format("chatId = %s, category of incomes - %s", chatId, category.title()));
         try {
             List<OperationDTO> operations =
-                    objectMapper.readValue(financeAppWebClient
+                    objectMapper.readValue(operationsWebClient
                             .findAllOperationsByCategory(category.categoryId()), new TypeReference<>() {});
             LOGGER.info(String.format("chatId = %s, operations: %s", chatId, operations));
             if (operations.isEmpty()) {
