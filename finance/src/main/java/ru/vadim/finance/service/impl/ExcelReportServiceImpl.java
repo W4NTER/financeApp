@@ -1,6 +1,5 @@
 package ru.vadim.finance.service.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,6 +24,7 @@ import java.util.Map;
 
 @Service
 @AllArgsConstructor
+@SuppressWarnings({"MagicNumber", "MultipleStringLiterals"})
 public class ExcelReportServiceImpl implements ExcelReportService {
     private final CategoryService categoryService;
     private final LiabilitiesAssetsService liabilitiesAssetsService;
@@ -109,7 +109,7 @@ public class ExcelReportServiceImpl implements ExcelReportService {
     private void calculateTotalSum(Sheet sheet, int rowIndex) {
         Row totalRow = sheet.createRow(rowIndex);
         totalRow.createCell(3).setCellValue("Итого");
-        String formula = String.format("SUM(E2:E%d)", rowIndex - 1);
+        String formula = String.format("SUM(E2:E%d)", rowIndex);
         totalRow.createCell(4).setCellFormula(formula);
     }
 

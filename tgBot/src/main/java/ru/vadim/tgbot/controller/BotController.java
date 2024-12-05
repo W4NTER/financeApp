@@ -1,6 +1,5 @@
 package ru.vadim.tgbot.controller;
 
-import com.pengrad.telegrambot.model.request.InputFile;
 import com.pengrad.telegrambot.request.SendDocument;
 import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.request.SendPhoto;
@@ -13,9 +12,6 @@ import ru.vadim.tgbot.bot.Bot;
 import ru.vadim.tgbot.dto.request.ChartRequest;
 import ru.vadim.tgbot.dto.request.ExcelReportRequest;
 import ru.vadim.tgbot.dto.request.LimitNotificationRequest;
-
-import java.io.ByteArrayInputStream;
-import java.io.File;
 
 import static ru.vadim.tgbot.constants.Constants.LOGGER;
 
@@ -42,10 +38,9 @@ public class BotController {
 
     @PostMapping("/excel")
     public ResponseEntity<Void> excelReport(@RequestBody ExcelReportRequest request) {
-        String fileName = "report.xlsx";
-        String contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-        InputFile inputFile = new InputFile(request.data(), fileName, contentType);
-        bot.execute(new SendDocument(request.chatId(), inputFile.getFile()));
+        var sendDoc = new SendDocument(request.chatId(), request.data());
+        sendDoc.fileName("report.xlsx");
+        bot.execute(sendDoc);
         return ResponseEntity.ok().build();
     }
 }
