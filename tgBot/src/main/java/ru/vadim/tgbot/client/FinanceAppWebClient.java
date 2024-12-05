@@ -8,6 +8,7 @@ public class FinanceAppWebClient {
     private final WebClient webClient;
     private static final String TG_CHAT_URI = "/tg-chat/";
     private static final String CHART_URI = "/chart";
+    private static final String EXCEL_REPORT_URI = "/excel";
     private static final String HEADER_CHAT_ID = "Tg-Chat-Id";
 
     public FinanceAppWebClient(WebClient webClient) {
@@ -18,6 +19,16 @@ public class FinanceAppWebClient {
         return webClient
                 .post()
                 .uri(CHART_URI)
+                .header(HEADER_CHAT_ID, String.valueOf(chatId))
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+    }
+
+    public String excelReport(Long chatId) {
+        return webClient
+                .post()
+                .uri(EXCEL_REPORT_URI)
                 .header(HEADER_CHAT_ID, String.valueOf(chatId))
                 .retrieve()
                 .bodyToMono(String.class)
