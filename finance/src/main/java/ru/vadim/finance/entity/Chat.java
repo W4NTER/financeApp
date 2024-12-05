@@ -15,7 +15,6 @@ import java.util.List;
 @Setter
 @RequiredArgsConstructor
 public class Chat {
-
     @Id
     @Column(name = "chat_id", unique = true, nullable = false)
     private Long chatId;
@@ -29,6 +28,10 @@ public class Chat {
     @JsonBackReference
     @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL)
     private List<Category> categories;
+
+    @JsonBackReference
+    @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL)
+    private List<LiabilitiesAssets> liabilitiesAssets;
 
     public Chat(
             Long chatId,

@@ -1,4 +1,4 @@
-package ru.vadim.tgbot.commands.category;
+package ru.vadim.tgbot.commands.details;
 
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
@@ -10,26 +10,27 @@ import ru.vadim.tgbot.state.StateType;
 
 @Component
 @AllArgsConstructor
-public class AddCategoryCommand implements Command {
+public class ChartCommand implements Command {
     private final FinanceAppWebClient financeAppWebClient;
 
     @Override
     public String command() {
-        return "Добавить категорию";
+        return "Вывести график";
     }
 
     @Override
     public String description() {
-        return "Введите название категории";
+        return "Отправлю вам графики, как только они будут готовы";
     }
 
     @Override
     public StateType state() {
-        return StateType.ADD_CATEGORY;
+        return StateType.CHART_REPORT;
     }
 
     @Override
     public SendMessage handle(Update update) {
+        financeAppWebClient.chartGenerate(update.message().chat().id());
         return Command.super.handle(update);
     }
 }

@@ -13,6 +13,4 @@ public interface BalanceService {
     BalanceResponse resetBalance(Long chatId);
 
     BalanceResponse findByChatId(Long chatId);
-
-    BalanceResponse calculateBalance(Long chatId);
 }

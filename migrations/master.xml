@@ -13,10 +13,13 @@
 <!--        <changeSet id="init_table_operation" author="Vadim">-->
 <!--            <sqlFile path="sql/create_operation.sql" relativeToChangelogFile="true"/>-->
 <!--        </changeSet>-->
-    <changeSet id="change_tables_category_chat9" author="Vadim">
+    <changeSet id="change_tables_category_chat11" author="Vadim">
         <sqlFile path="sql/change_tables.sql" relativeToChangelogFile="true"/>
     </changeSet>
-    <changeSet id="create_table_balance" author="Vadim">
-        <sqlFile path="sql/create_table_balance.sql" relativeToChangelogFile="true"/>
-    </changeSet>
+<!--    <changeSet id="create_table_balance" author="Vadim">-->
+<!--        <sqlFile path="sql/create_table_balance.sql" relativeToChangelogFile="true"/>-->
+<!--    </changeSet>-->
+<!--    <changeSet id="liabilities_assets" author="Vadim">-->
+<!--        <sqlFile path="sql/create_table_liabilities_assets.sql" relativeToChangelogFile="true"/>-->
+<!--    </changeSet>-->
 </databaseChangeLog>

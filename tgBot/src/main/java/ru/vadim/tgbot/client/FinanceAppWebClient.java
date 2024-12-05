@@ -18,10 +18,21 @@ public class FinanceAppWebClient {
     private static final String INCREMENT_URI = "/increment";
     private static final String DECREMENT_URI = "/decrement";
     private static final String RESET_URI = "/reset";
+    private static final String CHART_URI = "/chart";
     private static final String HEADER_CHAT_ID = "Tg-Chat-Id";
 
     public FinanceAppWebClient(WebClient webClient) {
         this.webClient = webClient;
+    }
+
+    public String chartGenerate(Long chatId) {
+        return webClient
+                .post()
+                .uri(CHART_URI)
+                .header(HEADER_CHAT_ID, String.valueOf(chatId))
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
     }
 
     public String registerChat(Long chatId) {

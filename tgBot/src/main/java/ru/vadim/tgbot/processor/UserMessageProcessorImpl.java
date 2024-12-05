@@ -1,6 +1,7 @@
 package ru.vadim.tgbot.processor;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
@@ -8,11 +9,13 @@ import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 import ru.vadim.tgbot.client.FinanceAppWebClient;
+import ru.vadim.tgbot.client.LiabilitiesAssetsWebClient;
 import ru.vadim.tgbot.commands.Command;
 import ru.vadim.tgbot.commands.handlers.CategoryCommandHandler;
 import ru.vadim.tgbot.dto.CategoryDTO;
 import ru.vadim.tgbot.dto.request.BalanceRequest;
 import ru.vadim.tgbot.dto.request.CategoryRequest;
+import ru.vadim.tgbot.dto.request.LiabilitiesAssetsRequest;
 import ru.vadim.tgbot.dto.request.OperationDTO;
 import ru.vadim.tgbot.dto.response.CategoryResponse;
 import ru.vadim.tgbot.entity.Chat;
@@ -22,7 +25,7 @@ import ru.vadim.tgbot.service.ChatService;
 import java.util.List;
 import java.util.Optional;
 
-import static ru.vadim.tgbot.Constants.LOGGER;
+import static ru.vadim.tgbot.Constants.*;
 
 @Component
 @AllArgsConstructor
@@ -33,6 +36,7 @@ public class UserMessageProcessorImpl implements UserMessageProcessor {
     private final CategoryCommandHandler categoryCommandHandler;
     private final CategoryService categoryService;
     private final ObjectMapper objectMapper;
+    private final LiabilitiesAssetsWebClient liabilitiesAssetsWebClient;
     private final static String OUTCOME = "OUTCOME";
     private final static String INCOME = "INCOME";
 
@@ -78,6 +82,12 @@ public class UserMessageProcessorImpl implements UserMessageProcessor {
             case "DECREMENT_BALANCE" -> {
                 return decrementBalance(update, chatId);
             }
+            case "ADD_ASSET" -> {
+                return addLiabilityOrAsset(update, chatId, ASSET_TYPE);
+            }
+            case "ADD_LIABILITY" -> {
+                return addLiabilityOrAsset(update, chatId, LIABILITY_TYPE);
+            }
             default -> {
                 LOGGER.info("no command find");
                 return new SendMessage(update.message().chat().id(), "Такой команды не существует");
@@ -85,13 +95,29 @@ public class UserMessageProcessorImpl implements UserMessageProcessor {
         }
     }
 
+    private SendMessage addLiabilityOrAsset(Update update, Long chatId, String type) {
+        String[] message = update.message().text().split("-");
+        try {
+            liabilitiesAssetsWebClient.addLiabilityOrAsset(
+                    new LiabilitiesAssetsRequest(
+                            chatId,
+                            message[0],
+                            type,
+                            Integer.parseInt(message[1].trim()))
+            );
+            return new SendMessage(chatId, WRITING_ANSWER_FROM_BOT);
+        } catch (Exception e) {
+            return new SendMessage(chatId, SOMETHING_WRONG_ANSWER_FROM_BOT);
+        }
+    }
+
     private SendMessage decrementBalance(Update update, Long chatId) {
         try {
             financeAppWebClient.decrementBalance(
                     new BalanceRequest(chatId, Integer.parseInt(update.message().text())));
-            return new SendMessage(chatId, "Все записал, можно двигаться дальше");
+            return new SendMessage(chatId, WRITING_ANSWER_FROM_BOT);
         } catch (Exception e) {
-            return new SendMessage(chatId, "Что-то пошло не так");
+            return new SendMessage(chatId, SOMETHING_WRONG_ANSWER_FROM_BOT);
         }
     }
 
@@ -139,7 +165,7 @@ public class UserMessageProcessorImpl implements UserMessageProcessor {
 
     private SendMessage addOutcome(Update update, Long chatId) {
         var category = categoryService.findCategoryByChatId(chatId);
-        LOGGER.info(String.format("chatId = %s, Add income message - %s", chatId, update.message().text()));
+        LOGGER.info(String.format("chatId = %s, Add outcome message - %s", chatId, update.message().text()));
         String[] message = update.message().text().split("-");
         return getSendMessage(chatId, category, message, OUTCOME);
 
@@ -153,14 +179,22 @@ public class UserMessageProcessorImpl implements UserMessageProcessor {
                     new OperationDTO(outcome, sum, category.categoryId(), message[0]));
             return new SendMessage(chatId, "Все записал, можно двигаться дальше");
         } catch (Exception e) {
-            LOGGER.info(String.format("ChatId = %d\n%s", chatId, e.getMessage()));
+            LOGGER.error(String.format("ChatId = %d\n%s", chatId, e.getMessage()));
             return new SendMessage(chatId, "Неверный формат данных");
         }
     }
 
     private SendMessage addCategory(Update update, Long chatId) {
-        financeAppWebClient.addCategory(chatId, update.message().text());
-        return new SendMessage(chatId, "Все записал, можно двигаться дальше");
+        try {
+            var cat = categoryService.addOrEditCategory(objectMapper
+                    .readValue(financeAppWebClient
+                            .addCategory(chatId, update.message().text()), CategoryRequest.class), chatId);
+            LOGGER.info(cat.categoryId());
+            return new SendMessage(chatId, "Все записал, можно двигаться дальше");
+        } catch (JsonProcessingException e) {
+            LOGGER.error(String.format("ChatId = %s, %s", chatId, e.getMessage()));
+            return new SendMessage(chatId, SOMETHING_WRONG_ANSWER_FROM_BOT);
+        }
     }
 
     private Optional<? extends Command> getCommand(Update update) {
