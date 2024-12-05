@@ -8,6 +8,7 @@ import com.pengrad.telegrambot.request.SendMessage;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.vadim.tgbot.client.FinanceAppWebClient;
+import ru.vadim.tgbot.client.OperationsWebClient;
 import ru.vadim.tgbot.commands.Command;
 import ru.vadim.tgbot.dto.request.OperationDTO;
 import ru.vadim.tgbot.service.CategoryService;
@@ -15,24 +16,26 @@ import ru.vadim.tgbot.state.StateType;
 
 import java.util.List;
 
-import static ru.vadim.tgbot.Constants.LOGGER;
-import static ru.vadim.tgbot.Constants.OUTCOME_TYPE;
+import static ru.vadim.tgbot.constants.CommandsConstants.OUTCOME_LIST_COMMAND;
+import static ru.vadim.tgbot.constants.CommandsConstants.OUTCOME_LIST_COMMAND_DESCRIPTION;
+import static ru.vadim.tgbot.constants.Constants.LOGGER;
+import static ru.vadim.tgbot.constants.Constants.OUTCOME_TYPE;
 
 @Component
 @AllArgsConstructor
 public class OutcomeListCommand implements Command {
     private final CategoryService categoryService;
     private final ObjectMapper objectMapper;
-    private final FinanceAppWebClient financeAppWebClient;
+    private final OperationsWebClient operationsWebClient;
 
     @Override
     public String command() {
-        return "Список расходов";
+        return OUTCOME_LIST_COMMAND;
     }
 
     @Override
     public String description() {
-        return "Список расходов";
+        return OUTCOME_LIST_COMMAND_DESCRIPTION;
     }
 
     @Override
@@ -47,7 +50,7 @@ public class OutcomeListCommand implements Command {
         LOGGER.info(String.format("chatId = %s, category of outcomes - %s", chatId, category.title()));
         try {
             List<OperationDTO> operations =
-                    objectMapper.readValue(financeAppWebClient
+                    objectMapper.readValue(operationsWebClient
                             .findAllOperationsByCategory(category.categoryId()), new TypeReference<>() {});
             LOGGER.info(String.format("chatId = %s, operations: %s", chatId, operations));
             if (operations.isEmpty()) {

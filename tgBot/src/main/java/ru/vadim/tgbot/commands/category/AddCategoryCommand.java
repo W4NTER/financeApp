@@ -8,19 +8,21 @@ import ru.vadim.tgbot.client.FinanceAppWebClient;
 import ru.vadim.tgbot.commands.Command;
 import ru.vadim.tgbot.state.StateType;
 
+import static ru.vadim.tgbot.constants.CommandsConstants.ADD_CATEGORY_COMMAND;
+import static ru.vadim.tgbot.constants.CommandsConstants.ADD_CATEGORY_COMMAND_DESCRIPTION;
+
 @Component
 @AllArgsConstructor
 public class AddCategoryCommand implements Command {
-    private final FinanceAppWebClient financeAppWebClient;
 
     @Override
     public String command() {
-        return "Добавить категорию";
+        return ADD_CATEGORY_COMMAND;
     }
 
     @Override
     public String description() {
-        return "Добавление категории";
+        return ADD_CATEGORY_COMMAND_DESCRIPTION;
     }
 
     @Override
@@ -30,7 +32,6 @@ public class AddCategoryCommand implements Command {
 
     @Override
     public SendMessage handle(Update update) {
-//        financeAppWebClient.addCategory(update.message().chat().id(), )
         return Command.super.handle(update);
     }
 }
