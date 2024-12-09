@@ -6,6 +6,7 @@ public record OperationResponseDTO(
         Long operationId,
         String type,
         Integer sum,
-        OffsetDateTime createdAt
+        OffsetDateTime createdAt,
+        String title
 ) {
 }
