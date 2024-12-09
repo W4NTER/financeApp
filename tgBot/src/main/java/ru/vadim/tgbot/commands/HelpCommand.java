@@ -1,5 +1,6 @@
 package ru.vadim.tgbot.commands;
 
+import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
 import org.springframework.stereotype.Component;
 import ru.vadim.tgbot.state.StateType;
 
