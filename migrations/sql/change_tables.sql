@@ -22,4 +22,15 @@
 
 -- alter table operation add column title varchar;
 
-alter table chat drop column enabled;
+-- alter table chat drop column enabled;
+
+-- ALTER TABLE chat ADD PRIMARY KEY (chat_id);
+
+-- CREATE SEQUENCE liabilities_assets_id_seq START 1 INCREMENT 1;
+-- ALTER TABLE liabilities_assets ALTER COLUMN id SET DEFAULT nextval('liabilities_assets_id_seq');
+
+
+
+
+
+

@@ -4,16 +4,19 @@ import org.springframework.stereotype.Component;
 import ru.vadim.tgbot.commands.Command;
 import ru.vadim.tgbot.state.StateType;
 
+import static ru.vadim.tgbot.constants.CommandsConstants.INCOME_COMMAND;
+import static ru.vadim.tgbot.constants.CommandsConstants.INCOME_COMMAND_DESCRIPTION;
+
 @Component
 public class IncomeCommand implements Command {
     @Override
     public String command() {
-        return "Доходы";
+        return INCOME_COMMAND;
     }
 
     @Override
     public String description() {
-        return "Выберите действие";
+        return INCOME_COMMAND_DESCRIPTION;
     }
 
     @Override

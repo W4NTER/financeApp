@@ -8,7 +8,7 @@ import ru.vadim.tgbot.state.StateType;
 
 import java.util.Arrays;
 
-import static ru.vadim.tgbot.Constants.*;
+import static ru.vadim.tgbot.constants.Constants.*;
 
 @Component
 public interface Command {

@@ -7,29 +7,30 @@ import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
 import com.pengrad.telegrambot.request.SendMessage;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
-import ru.vadim.tgbot.client.FinanceAppWebClient;
+import ru.vadim.tgbot.client.BalanceWebClient;
 import ru.vadim.tgbot.commands.Command;
 import ru.vadim.tgbot.dto.response.BalanceResponse;
 import ru.vadim.tgbot.state.StateType;
 
-import static ru.vadim.tgbot.Constants.BALANCE_MENU;
-import static ru.vadim.tgbot.Constants.LOGGER;
+import static ru.vadim.tgbot.constants.CommandsConstants.BALANCE_COMMAND;
+import static ru.vadim.tgbot.constants.CommandsConstants.BALANCE_COMMAND_DESCRIPTION;
+import static ru.vadim.tgbot.constants.Constants.BALANCE_MENU;
+import static ru.vadim.tgbot.constants.Constants.LOGGER;
 
 @Component
 @AllArgsConstructor
 public class BalanceCommand implements Command {
-    private final FinanceAppWebClient financeAppWebClient;
+    private final BalanceWebClient balanceWebClient;
     private final ObjectMapper objectMapper;
 
     @Override
     public String command() {
-        return "Баланс";
+        return BALANCE_COMMAND;
     }
 
     @Override
     public String description() {
-        return "Баланс рассчитывается исходя их всех операций за месяц," +
-                " также его можно увеличить или уменьшить вручную";
+        return BALANCE_COMMAND_DESCRIPTION;
     }
 
     @Override
@@ -45,7 +46,7 @@ public class BalanceCommand implements Command {
     @Override
     public SendMessage handle(Update update) {
         try {
-            var balanceJson = financeAppWebClient.findBalanceById(update.message().chat().id());
+            var balanceJson = balanceWebClient.findBalanceById(update.message().chat().id());
             var balance = objectMapper.readValue(balanceJson, BalanceResponse.class);
             return new SendMessage(update.message().chat().id(),
                     String.format("%s\nБаланс равен %s", description(), balance.sum()))

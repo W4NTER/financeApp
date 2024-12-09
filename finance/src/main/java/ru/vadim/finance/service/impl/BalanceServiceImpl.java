@@ -16,7 +16,6 @@ import ru.vadim.finance.service.CategoryService;
 import ru.vadim.finance.service.OperationService;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -26,7 +25,7 @@ public class BalanceServiceImpl implements BalanceService {
     private final CategoryService categoryService;
     private final OperationService operationService;
     private static final Integer DEFAULT_BALANCE = 0;
-    private static final String OUTCOME = "OUTCOME";
+
 
     @Override
     public BalanceResponse addBalance(Long chatId) {
@@ -80,22 +79,5 @@ public class BalanceServiceImpl implements BalanceService {
             throw new EntityNotFoundException(Balance.class.getSimpleName());
         }
         return objectMapper.convertValue(balanceOpt.get(), BalanceResponse.class);
-    }
-
-    @Override
-    public BalanceResponse calculateBalance(Long chatId) {
-        var categories = categoryService.findAllByChatId(chatId);
-        List<OperationResponseDTO> operations = categories.stream()
-                .flatMap(category ->
-                        operationService.findAllByCategoryId(category.categoryId()).stream())
-                .toList();
-        var balance = balanceRepository.findBalanceByChatId(chatId).orElseThrow(() ->
-                new EntityNotFoundException(Balance.class.getSimpleName()));
-        int newSum = balance.getSum();
-        newSum += operations.stream()
-                .mapToInt(op -> op.type().equals(OUTCOME) ? -op.sum() : op.sum())
-                .sum();
-        balance.setSum(newSum);
-        return objectMapper.convertValue(balanceRepository.save(balance), BalanceResponse.class);
     }
 }

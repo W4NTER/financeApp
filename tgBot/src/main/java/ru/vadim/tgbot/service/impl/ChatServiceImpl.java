@@ -7,7 +7,7 @@ import ru.vadim.tgbot.repository.ChatRepository;
 import ru.vadim.tgbot.service.ChatService;
 import ru.vadim.tgbot.state.StateType;
 
-import static ru.vadim.tgbot.Constants.LOGGER;
+import static ru.vadim.tgbot.constants.Constants.LOGGER;
 
 @Service
 public class ChatServiceImpl implements ChatService {

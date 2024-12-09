@@ -5,18 +5,20 @@ import org.springframework.stereotype.Component;
 import ru.vadim.tgbot.commands.Command;
 import ru.vadim.tgbot.state.StateType;
 
-import static ru.vadim.tgbot.Constants.*;
+import static ru.vadim.tgbot.constants.CommandsConstants.ADD_CATEGORY_LIMIT_COMMAND;
+import static ru.vadim.tgbot.constants.CommandsConstants.ADD_CATEGORY_LIMIT_COMMAND_DESCRIPTION;
+import static ru.vadim.tgbot.constants.Constants.*;
 
 @Component
 public class AddCategoryLimitCommand implements Command {
     @Override
     public String command() {
-        return "Добавить лимит";
+        return ADD_CATEGORY_LIMIT_COMMAND;
     }
 
     @Override
     public String description() {
-        return "Введите сумму лимита";
+        return ADD_CATEGORY_LIMIT_COMMAND_DESCRIPTION;
     }
 
     @Override
