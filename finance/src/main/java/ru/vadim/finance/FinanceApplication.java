@@ -2,8 +2,11 @@ package ru.vadim.finance;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import ru.vadim.finance.config.ApplicationConfiguration;
 
 @SpringBootApplication
+@EnableConfigurationProperties(ApplicationConfiguration.class)
 public class FinanceApplication {
 
     public static void main(String[] args) {
