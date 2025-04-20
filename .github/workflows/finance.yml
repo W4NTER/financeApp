@@ -15,22 +15,30 @@ jobs:
       packages: write
 
     steps:
+      #Качаем основной репозиторий
+      - name: Checkout main project
+        uses: actions/checkout@v4
+        with:
+          path: main
+
+      #Качаем стартер в отдельную папку
       - name: Checkout starter
         uses: actions/checkout@v3
         with:
           repository: W4NTER/starter_t1
-          path: starter_t1
+          path: starter
 
-      - name: Install starter locally
-        run: |
-          cd starter_t1
-          mvn install
-      - uses: actions/checkout@v4
+#      - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'temurin'
           cache: maven
+
+      - name: Install starter locally
+        run: |
+          cd starter_t1
+          mvn install
 
       - name: maven build
         run: mvn -pl finance -am package
