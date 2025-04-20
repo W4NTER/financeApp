@@ -37,7 +37,7 @@ jobs:
 
       - name: Install starter locally
         run: |
-          cd starter_t1
+          cd starter
           mvn install
 
       - name: maven build
