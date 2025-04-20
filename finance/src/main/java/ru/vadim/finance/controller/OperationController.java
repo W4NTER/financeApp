@@ -3,6 +3,7 @@ package ru.vadim.finance.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.starter_t1.aspect.annotation.LogExecution;
 import ru.vadim.finance.dto.request.OperationRequestDTO;
 import ru.vadim.finance.dto.response.OperationResponseDTO;
 import ru.vadim.finance.service.OperationService;
@@ -18,11 +19,13 @@ public class OperationController {
         this.operationService = operationService;
     }
 
+    @LogExecution
     @PostMapping
     public ResponseEntity<OperationResponseDTO> addOperation(@RequestBody OperationRequestDTO operation) {
         return new ResponseEntity<>(operationService.add(operation), HttpStatus.OK);
     }
 
+    @LogExecution
     @DeleteMapping("/{operation_id}")
     public ResponseEntity<Void> deleteOperation(
             @PathVariable(name = "operation_id") Long operationId) {
@@ -30,6 +33,7 @@ public class OperationController {
         return ResponseEntity.ok().build();
     }
 
+    @LogExecution
     @GetMapping("/{type}/{category_id}")
     public ResponseEntity<List<OperationResponseDTO>> findAllByType(
             @PathVariable String type,
@@ -38,6 +42,7 @@ public class OperationController {
                 operationService.findAllByTypeAndCategoryId(type, categoryId), HttpStatus.OK);
     }
 
+    @LogExecution
     @GetMapping("/{category_id}")
     public ResponseEntity<List<OperationResponseDTO>> findAll(@PathVariable("category_id") Long categoryId) {
         return new ResponseEntity<>(operationService.findAllByCategoryId(categoryId), HttpStatus.OK);

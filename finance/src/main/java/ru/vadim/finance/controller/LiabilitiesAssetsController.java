@@ -5,6 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.starter_t1.aspect.annotation.LogExecution;
+import ru.starter_t1.aspect.annotation.LogTracking;
 import ru.vadim.finance.dto.request.LiabilitiesAssetsRequest;
 import ru.vadim.finance.dto.response.LiabilitiesAssetsResponse;
 import ru.vadim.finance.service.LiabilitiesAssetsService;
@@ -17,24 +19,29 @@ import java.util.List;
 public class LiabilitiesAssetsController {
     private final LiabilitiesAssetsService liabilitiesAssetsService;
 
+    @LogExecution
     @GetMapping
     public ResponseEntity<List<LiabilitiesAssetsResponse>> findAllByChatId(
             @RequestHeader("Tg-Chat-Id") Long chatId) {
         return new ResponseEntity<>(liabilitiesAssetsService.findAllByChatId(chatId), HttpStatus.OK);
     }
 
+    @LogExecution
+    @LogTracking
     @GetMapping("/result")
     public ResponseEntity<Integer> calculate(
             @RequestHeader("Tg-Chat-Id") Long chatId) {
         return new ResponseEntity<>(liabilitiesAssetsService.calculateResult(chatId), HttpStatus.OK);
     }
 
+    @LogExecution
     @PostMapping
     public ResponseEntity<LiabilitiesAssetsResponse> addLiabilityOrAsset(
             @RequestBody LiabilitiesAssetsRequest request) {
         return new ResponseEntity<>(liabilitiesAssetsService.addLiabilitiesAssets(request), HttpStatus.OK);
     }
 
+    @LogExecution
     @DeleteMapping
     public ResponseEntity<Void> deleteAllByChat(
             @RequestHeader("Tg-Chat-Id") Long chatId) {
