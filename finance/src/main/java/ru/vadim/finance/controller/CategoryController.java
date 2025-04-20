@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.starter_t1.aspect.annotation.LogExecution;
 import ru.vadim.finance.dto.request.CategoryRequestDTO;
 import ru.vadim.finance.dto.response.CategoryResponseDTO;
 import ru.vadim.finance.service.CategoryService;
@@ -21,6 +22,7 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
+    @LogExecution
     @PostMapping
     public ResponseEntity<CategoryResponseDTO> addCategory(
             @RequestHeader("Tg-Chat-Id") Long chatId,
@@ -29,6 +31,7 @@ public class CategoryController {
         return new ResponseEntity<>(categoryService.add(category, chatId), HttpStatus.OK);
     }
 
+    @LogExecution
     @DeleteMapping
     public ResponseEntity<Void> deleteCategory(
             @RequestHeader("Tg-Chat-Id") Long chatId,
@@ -37,12 +40,14 @@ public class CategoryController {
         return ResponseEntity.ok().build();
     }
 
+    @LogExecution
     @GetMapping()
     public ResponseEntity<List<CategoryResponseDTO>> findAllCategoriesByChat(
             @RequestHeader("Tg-Chat-Id") Long chatId) {
         return new ResponseEntity<>(categoryService.findAllByChatId(chatId), HttpStatus.OK);
     }
 
+    @LogExecution
     @PutMapping
     public ResponseEntity<CategoryResponseDTO> setLimit(
             @RequestHeader("Tg-Chat-Id") Long chatId,
@@ -50,6 +55,7 @@ public class CategoryController {
         return new ResponseEntity<>(categoryService.setLimit(category, chatId), HttpStatus.OK);
     }
 
+    @LogExecution
     @GetMapping("/{title}")
     public ResponseEntity<CategoryResponseDTO> findCategoryByTitleAndChat(
             @RequestHeader("Tg-Chat-Id") Long chatId,

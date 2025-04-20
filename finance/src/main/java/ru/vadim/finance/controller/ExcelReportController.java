@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.starter_t1.aspect.annotation.LogExecution;
+import ru.starter_t1.aspect.annotation.LogTracking;
 import ru.vadim.finance.service.ExcelReportService;
 
 @RestController
@@ -16,6 +18,8 @@ public class ExcelReportController {
         this.excelReportService = excelReportService;
     }
 
+    @LogExecution
+    @LogTracking
     @PostMapping
     public ResponseEntity<Void> excelReport(
             @RequestHeader("Tg-Chat-Id") Long chatId) {

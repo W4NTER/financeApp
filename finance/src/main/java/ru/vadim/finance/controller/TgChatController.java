@@ -3,6 +3,7 @@ package ru.vadim.finance.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.starter_t1.aspect.annotation.LogExecution;
 import ru.vadim.finance.dto.response.ChatResponseDTO;
 import ru.vadim.finance.service.ChatService;
 
@@ -15,11 +16,13 @@ public class TgChatController {
         this.chatService = chatService;
     }
 
+    @LogExecution
     @PostMapping
     public ResponseEntity<ChatResponseDTO> registerChat(@PathVariable Long id) {
         return new ResponseEntity<>(chatService.add(id), HttpStatus.OK);
     }
 
+    @LogExecution
     @DeleteMapping
     public ResponseEntity<Void> deleteChat(@PathVariable Long id) {
         chatService.delete(id);
