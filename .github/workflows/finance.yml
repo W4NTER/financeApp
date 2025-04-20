@@ -15,6 +15,16 @@ jobs:
       packages: write
 
     steps:
+      - name: Checkout starter
+        uses: actions/checkout@v3
+        with:
+          repository: W4NTER/starter_t1
+          path: starter_t1
+
+      - name: Install starter locally
+        run: |
+          cd starter_t1
+          mvn install
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
         with:
