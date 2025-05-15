@@ -1,0 +1,23 @@
+FROM maven:3.9.6-eclipse-temurin-21 AS builder
+
+RUN apt-get update && apt-get install -y git
+
+RUN git clone https://github.com/W4NTER/starter_t1.git /build/starter_t1
+
+WORKDIR /build/starter_t1
+RUN mvn clean install -DskipTests
+
+COPY . /build/app
+WORKDIR /build/app
+
+RUN mvn clean package -pl finance -am -DskipTests -X
+
+FROM eclipse-temurin:21-jre AS runtime
+
+WORKDIR /app
+
+COPY --from=builder /build/app/finance/target/*.jar app.jar
+
+ENTRYPOINT ["java", "-jar", "app.jar"]
+
+#docker run -d --name finance-app --network financeapp_backend -p 8085:3000 finance-app

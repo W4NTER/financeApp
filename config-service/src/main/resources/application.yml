@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: config-service
+  profiles:
+    active: native
+  output:
+    ansi:
+      enabled: always
+  cloud:
+    config:
+      uri: http://localhost:8888
+
+server:
+  port: 8888
+

@@ -1,20 +1,15 @@
-app:
-  base-url-bot: http://localhost:8090
+spring:
+  application:
+    name: finance
+  config:
+    import: optional:configserver:http://config-service:8888
+    activate:
+      on-profile: docker
+
+---
 
 spring:
   application:
     name: finance
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-  datasource:
-    username: postgres
-    password: postgres
-    url: jdbc:postgresql://localhost:5450/financeApp_db
-  liquibase:
-    enabled: false
-    change-log: liquibase/master.xml
-
-server:
-  port: 3000
+  config:
+    import: optional:configserver:http://localhost:8888

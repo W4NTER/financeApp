@@ -1,0 +1,41 @@
+app:
+  telegram-token: ${TELEGRAM_API_KEY}
+  base-url-finance-app: http://gateway-service:8083/finance
+
+spring:
+  application:
+    name: tgBot
+  datasource:
+    url: jdbc:h2:mem:databaseBot
+    username: username
+    password: password
+    driverClassName: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
+  h2:
+    console:
+      enabled: true
+  output:
+    ansi:
+      enabled: always
+
+server:
+  port: 8090
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://discovery-service:8761/eureka/
+  instance:
+    instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+
+application:
+  log:
+    base:
+      path: /home/logs
+    rolling:
+      file: true

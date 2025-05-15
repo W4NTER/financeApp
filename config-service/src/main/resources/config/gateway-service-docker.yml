@@ -1,0 +1,33 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: gateway-service
+  output:
+    ansi:
+      enabled: always
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true       # Автоматически создавать маршруты для сервисов из Eureka
+          lower-case-service-id: true
+      routes:
+        - id: finance-route
+          uri: lb://finance
+          predicates:
+            - Path=/finance/**
+
+        - id: tgBot-route
+          uri: lb://tgBot
+          predicates:
+            - Path=/tg/**
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://discovery-service:8761/eureka/
+  instance:
+    instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+
