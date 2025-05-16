@@ -14,7 +14,7 @@ public final class Constants {
     public static final String INCOME_TYPE = "INCOME";
     public static final String ASSET_TYPE = "ASSET";
     public static final String LIABILITY_TYPE = "LIABILITY";
-    public static final String FORMAT_FOR_LOGGING = "ChatId = %d, %s";
+    public static final String FORMAT_FOR_LOGGING_CHAT_ID = "ChatId = %d, %s";
     public static final String[][] CATEGORY_MENU = {
             {"Доходы", "Расходы"},
             {"Список операций", "Добавить лимит"},

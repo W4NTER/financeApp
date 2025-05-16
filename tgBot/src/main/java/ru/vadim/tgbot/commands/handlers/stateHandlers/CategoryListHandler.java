@@ -1,44 +1,53 @@
 package ru.vadim.tgbot.commands.handlers.stateHandlers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
-import lombok.AllArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
+import ru.vadim.tgbot.cashService.CurrCategoryCashService;
 import ru.vadim.tgbot.client.CategoryWebClient;
-import ru.vadim.tgbot.commands.handlers.CategoryCommandHandler;
-import ru.vadim.tgbot.dto.request.CategoryRequest;
-import ru.vadim.tgbot.service.CategoryService;
+import ru.vadim.tgbot.commands.category.CategoryCommand;
+import ru.vadim.tgbot.dto.response.CategoryDto;
 import ru.vadim.tgbot.state.StateType;
 
-import static ru.vadim.tgbot.constants.Constants.LOGGER;
-
 @Component
-@AllArgsConstructor
 public class CategoryListHandler implements StateHandler {
-    private final CategoryCommandHandler categoryCommandHandler;
-    private final CategoryService categoryService;
+    private final CurrCategoryCashService currCategoryCashService;
     private final CategoryWebClient categoryWebClient;
     private final ObjectMapper objectMapper;
+    private final static Logger LOGGER = LogManager.getLogger();
 
+    public CategoryListHandler(
+            CurrCategoryCashService currCategoryCashService,
+            CategoryWebClient categoryWebClient,
+            ObjectMapper objectMapper) {
+        this.currCategoryCashService = currCategoryCashService;
+        this.categoryWebClient = categoryWebClient;
+        this.objectMapper = objectMapper;
+    }
 
     @Override
     public boolean supports(String state) {
         return StateType.CATEGORY_LIST.toString().equals(state);
     }
 
+    //TODO подумать как переписать в будущем,чтобы не кидать запрос на другой сервис, а брать все в кэше
     @Override
     public SendMessage handle(Update update) {
         Long chatId = update.message().chat().id();
-        var command = categoryCommandHandler.createCategoryListCommand(update.message().text());
-        String categoryJson = categoryWebClient.findCategoryByTitleAndChatId(chatId, command.command());
-        LOGGER.info(String.format("ChatId = %s, Category request = %s", chatId, categoryJson));
         try {
-            categoryService.addOrEditCategory(objectMapper.readValue(categoryJson, CategoryRequest.class), chatId);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            currCategoryCashService.setCashCategory(
+                    chatId,
+                    objectMapper.readValue(
+                            categoryWebClient.findCategoryByTitleAndChatId(chatId, update.message().text()),
+                            CategoryDto.class
+                    ));
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getStackTrace());
         }
-        return command.handle(update);
+        return new CategoryCommand(update.message().text()).handle(update);
     }
 }
