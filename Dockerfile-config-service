@@ -1,0 +1,16 @@
+FROM maven:3.9.6-eclipse-temurin-21 AS builder
+
+COPY . /build/app
+WORKDIR /build/app
+
+RUN mvn clean package -pl config-service -am -DskipTests -X
+
+FROM eclipse-temurin:21-jre AS runtime
+
+WORKDIR /app
+
+COPY --from=builder /build/app/config-service/target/*.jar app.jar
+
+ENTRYPOINT ["java", "-jar", "app.jar"]
+
+#docker run -d --name config-service-app --network financeapp_backend -p port:port config-service-app

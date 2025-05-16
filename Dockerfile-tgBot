@@ -1,0 +1,25 @@
+FROM maven:3.9.6-eclipse-temurin-21 AS builder
+
+RUN apt-get update && apt-get install -y git
+
+RUN git clone https://github.com/W4NTER/starter_t1.git /build/starter_t1
+
+WORKDIR /build/starter_t1
+RUN mvn clean install -DskipTests
+
+COPY . /build/app
+WORKDIR /build/app
+
+RUN mvn clean package -pl tgBot -am -DskipTests -X
+
+RUN ls -la /build/app/tgBot/target
+
+FROM eclipse-temurin:21-jre AS runtime
+
+WORKDIR /app
+
+COPY --from=builder /build/app/tgBot/target/*.jar app.jar
+
+ENTRYPOINT ["java", "-jar", "app.jar"]
+
+#docker run -d --name tgBot-app --network financeapp_backend -p port:port tgBot-app

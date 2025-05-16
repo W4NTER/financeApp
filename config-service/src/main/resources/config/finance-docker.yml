@@ -1,0 +1,36 @@
+app:
+  base-url-bot: lb://tgBot/
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    username: postgres
+    password: postgres
+    url: jdbc:postgresql://postgresql:5432/financeApp_db
+    driver-class-name: org.postgresql.Driver
+  liquibase:
+    enabled: false
+    change-log: liquibase/master.xml
+  output:
+    ansi:
+      enabled: always
+
+server:
+  port: 3000
+
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://discovery-service:8761/eureka/
+  instance:
+    instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+
+application:
+  log:
+    base:
+      path: /home/logs
+    rolling:
+      file: true

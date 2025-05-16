@@ -7,24 +7,114 @@ services:
       POSTGRES_DB: financeApp_db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     volumes:
       - postgresql:/var/lib/postgresql/data
     networks:
       - backend
 
-  liquibase-migrations:
-    image: liquibase/liquibase:4.25
+#  liquibase-migrations:
+#    image: liquibase/liquibase:4.25
+#    depends_on:
+#      - postgresql
+#    command:
+#      - --changelog-file=master.xml
+#      - --driver=org.postgresql.Driver
+#      - --url=jdbc:postgresql://postgresql:5432/financeApp_db
+#      - --username=postgres
+#      - --password=postgres
+#      - update
+#    volumes:
+#      - ./migrations:/liquibase/changelog/
+#    networks:
+#      - backend
+
+  config-service:
+    build:
+      context: .
+      dockerfile: Dockerfile-config-service
+    container_name: config-service
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8888/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - backend
+
+  discovery-service:
+    build:
+      context: .
+      dockerfile: Dockerfile-discovery-service
+    container_name: discovery-service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
     depends_on:
-      - postgresql
-    command:
-      - --changelog-file=master.xml
-      - --driver=org.postgresql.Driver
-      - --url=jdbc:postgresql://postgresql:5432/financeApp_db
-      - --username=postgres
-      - --password=postgres
-      - update
-    volumes:
-      - ./migrations:/liquibase/changelog/
+      config-service:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8761/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - backend
+
+  finance:
+    build:
+      context: .
+      dockerfile: Dockerfile-finance
+    container_name: finance
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      discovery-service:
+        condition: service_healthy
+      config-service:
+        condition: service_healthy
+      postgresql:
+        condition: service_healthy
+    networks:
+      - backend
+
+  tg-bot:
+    build:
+      context: .
+      dockerfile: Dockerfile-tgBot
+    container_name: tg-bot
+    depends_on:
+      discovery-service:
+        condition: service_healthy
+      config-service:
+        condition: service_healthy
+    environment:
+      TELEGRAM_API_KEY: ${TELEGRAM_API_KEY}
+      SPRING_PROFILES_ACTIVE: docker
+    networks:
+      - backend
+
+  gateway-service:
+    build:
+      context: .
+      dockerfile: Dockerfile-gateway-service
+    container_name: gateway-service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      config-service:
+        condition: service_healthy
+      discovery-service:
+        condition: service_healthy
+      finance:
+        condition: service_started
+      tg-bot:
+        condition: service_started
+    ports:
+      - "8083:8083"
     networks:
       - backend
 

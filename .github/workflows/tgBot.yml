@@ -17,11 +17,21 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Checkout starter_t1
+        uses: actions/checkout@v3
+        with:
+          repository: W4NTER/starter_t1
+          path: starter_t1
+
       - uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'temurin'
           cache: maven
+
+      - name: Install starter to local Maven repo
+        run: mvn install -f starter_t1/pom.xml
 
       - name: maven build
         run: mvn -pl tgBot -am package
@@ -57,10 +67,20 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Checkout starter_t1
+        uses: actions/checkout@v3
+        with:
+          repository: W4NTER/starter_t1
+          path: starter_t1
+
       - uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'temurin'
           cache: maven
+
+      - name: Install starter to local Maven repo
+        run: mvn install -f starter_t1/pom.xml
 
       - run: mvn -pl tgBot -am verify -Dskip.unit.tests=true
