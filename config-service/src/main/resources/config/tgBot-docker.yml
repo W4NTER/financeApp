@@ -5,14 +5,14 @@ app:
 spring:
   application:
     name: tgBot
-  datasource:
-    url: jdbc:h2:mem:databaseBot
-    username: username
-    password: password
-    driverClassName: org.h2.Driver
-  jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-    defer-datasource-initialization: true
+#  datasource:
+#    url: jdbc:h2:mem:databaseBot
+#    username: username
+#    password: password
+#    driverClassName: org.h2.Driver
+#  jpa:
+#    database-platform: org.hibernate.dialect.H2Dialect
+#    defer-datasource-initialization: true
   sql:
     init:
       mode: always
@@ -22,6 +22,17 @@ spring:
   output:
     ansi:
       enabled: always
+  redis:
+    cluster:
+      nodes:
+        - redis-node-1:6379
+        - redis-node-2:6379
+        - redis-node-3:6379
+        - redis-node-4:6379
+        - redis-node-5:6379
+        - redis-node-6:6379
+      max-redirects: 3
+    timeout: 2000ms
 
 server:
   port: 8090
@@ -39,3 +50,8 @@ application:
       path: /home/logs
     rolling:
       file: true
+
+logging:
+  level:
+    org.springframework.data.redis: DEBUG
+    io.lettuce.core: DEBUG

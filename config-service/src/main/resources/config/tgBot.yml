@@ -5,20 +5,33 @@ app:
 spring:
   application:
     name: tgBot
-  datasource:
-    url: jdbc:h2:mem:databaseBot
-    username: username
-    password: password
-    driverClassName: org.h2.Driver
-  jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-    defer-datasource-initialization: true
+#  datasource:
+#    url: jdbc:h2:mem:databaseBot
+#    username: username
+#    password: password
+#    driverClassName: org.h2.Driver
+#  jpa:
+#    database-platform: org.hibernate.dialect.H2Dialect
+#    defer-datasource-initialization: true
   sql:
     init:
       mode: always
-  h2:
-    console:
-      enabled: true
+#  h2:
+#    console:
+#      enabled: true
+#  Редис не работает просто так через локалхост, могу заколхозить или нужно найти решение
+  redis:
+    cluster:
+      nodes:
+        - localhost:7001
+        - localhost:7002
+        - localhost:7003
+        - localhost:7004
+        - localhost:7005
+        - localhost:7006
+      max-redirects: 3
+    timeout: 2000ms
+
 
 server:
   port: 8090

@@ -1,7 +1,6 @@
 package ru.vadim.tgbot.dto.response;
 
-public record CategoryResponse(
-        Long chatId,
+public record CategoryDto(
         Long categoryId,
         String title,
         Integer categoryLimit

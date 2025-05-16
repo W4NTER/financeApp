@@ -56,7 +56,7 @@ public class CommandsConstants {
     public static final String OUTCOME_COMMAND = "Расходы";
     public static final String OUTCOME_COMMAND_DESCRIPTION = "Выберите действие";
     public static final String OUTCOME_LIST_COMMAND = "Список расходов";
-    public static final String OUTCOME_LIST_COMMAND_DESCRIPTION = "Список дрходов";
+    public static final String OUTCOME_LIST_COMMAND_DESCRIPTION = "Список расходов";
     public static final String GO_TO_START_COMMAND = "go to start";
     public static final String GO_TO_START_COMMAND_DESCRIPTION = "Начальное меню";
     public static final String EXCEL_REPORT_COMMAND = "Получить Excel документ";

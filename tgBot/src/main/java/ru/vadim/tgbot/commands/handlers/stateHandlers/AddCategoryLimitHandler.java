@@ -1,23 +1,32 @@
 package ru.vadim.tgbot.commands.handlers.stateHandlers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.vadim.tgbot.client.CategoryWebClient;
 import ru.vadim.tgbot.dto.CategoryDTO;
-import ru.vadim.tgbot.service.CategoryService;
+import ru.vadim.tgbot.dto.response.CategoryDto;
+import ru.vadim.tgbot.cashService.CashCategoriesService;
+import ru.vadim.tgbot.cashService.CurrCategoryCashService;
 import ru.vadim.tgbot.state.StateType;
 
 import static ru.vadim.tgbot.constants.Constants.LOGGER;
 
 @Component
-@AllArgsConstructor
 public class AddCategoryLimitHandler implements StateHandler {
-    private final CategoryService categoryService;
+    private final CashCategoriesService cashCategoriesService;
     private final CategoryWebClient categoryWebClient;
-    private final ObjectMapper objectMapper;
+    private final CurrCategoryCashService currCategoryCashService;
+
+    public AddCategoryLimitHandler(
+            CashCategoriesService cashCategoriesService,
+            CategoryWebClient categoryWebClient,
+            CurrCategoryCashService currCategoryCashService
+    ) {
+        this.cashCategoriesService = cashCategoriesService;
+        this.categoryWebClient = categoryWebClient;
+        this.currCategoryCashService = currCategoryCashService;
+    }
 
     @Override
     public boolean supports(String state) {
@@ -28,15 +37,15 @@ public class AddCategoryLimitHandler implements StateHandler {
     public SendMessage handle(Update update) {
         Long chatId = update.message().chat().id();
         try {
-            var categoryState = categoryService.findCategoryByChatId(chatId);
-            var categoryJson = categoryWebClient.findCategoryByTitleAndChatId(chatId, categoryState.title());
-            CategoryDTO categoryDTO = objectMapper.readValue(categoryJson, CategoryDTO.class);
+            CategoryDto currantCategory = currCategoryCashService.getCashCategory(chatId);
             categoryWebClient.setCategoryLimit(
                     chatId,
-                    new CategoryDTO(categoryDTO.title(), Integer.parseInt(update.message().text())));
+                    new CategoryDTO(currantCategory.title(), Integer.parseInt(update.message().text())));
+
+            cashCategoriesService.updateCashCategories(chatId);
             return new SendMessage(chatId, "Лимит успешно установлен");
         } catch (Exception e) {
-            LOGGER.info(String.format("chatId = %d\n%s", chatId, e.getMessage()));
+            LOGGER.info("chatId = {}\n{}", chatId, e.getMessage());
             return new SendMessage(chatId, "Не удалось установить лимит");
         }
     }

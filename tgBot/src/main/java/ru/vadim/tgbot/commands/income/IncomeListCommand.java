@@ -5,12 +5,12 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.vadim.tgbot.client.OperationsWebClient;
 import ru.vadim.tgbot.commands.Command;
 import ru.vadim.tgbot.dto.request.OperationDTO;
-import ru.vadim.tgbot.service.CategoryService;
+import ru.vadim.tgbot.dto.response.CategoryDto;
+import ru.vadim.tgbot.cashService.CurrCategoryCashService;
 import ru.vadim.tgbot.state.StateType;
 
 import java.util.List;
@@ -21,11 +21,19 @@ import static ru.vadim.tgbot.constants.Constants.INCOME_TYPE;
 import static ru.vadim.tgbot.constants.Constants.LOGGER;
 
 @Component
-@AllArgsConstructor
 public class IncomeListCommand implements Command {
-    private final CategoryService categoryService;
     private final OperationsWebClient operationsWebClient;
     private final ObjectMapper objectMapper;
+    private final CurrCategoryCashService currCategoryCashService;
+
+    public IncomeListCommand(
+            OperationsWebClient operationsWebClient,
+            ObjectMapper objectMapper,
+            CurrCategoryCashService currCategoryCashService) {
+        this.operationsWebClient = operationsWebClient;
+        this.objectMapper = objectMapper;
+        this.currCategoryCashService = currCategoryCashService;
+    }
 
     @Override
     public String command() {
@@ -45,7 +53,7 @@ public class IncomeListCommand implements Command {
     @Override
     public SendMessage handle(Update update) {
         Long chatId = update.message().chat().id();
-        var category = categoryService.findCategoryByChatId(chatId);
+        CategoryDto category = currCategoryCashService.getCashCategory(chatId);
         LOGGER.info(String.format("chatId = %s, category of incomes - %s", chatId, category.title()));
         try {
             List<OperationDTO> operations =
