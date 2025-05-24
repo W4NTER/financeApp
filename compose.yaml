@@ -38,6 +38,8 @@ services:
       context: .
       dockerfile: Dockerfile-config-service
     container_name: config-service
+    volumes:
+      - maven-repo:/root/.m2
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8888/actuator/health" ]
       interval: 10s
@@ -51,6 +53,8 @@ services:
       context: .
       dockerfile: Dockerfile-discovery-service
     container_name: discovery-service
+    volumes:
+      - maven-repo:/root/.m2
     environment:
       SPRING_PROFILES_ACTIVE: docker
     depends_on:
@@ -69,6 +73,8 @@ services:
       context: .
       dockerfile: Dockerfile-finance
     container_name: finance
+    volumes:
+      - maven-repo:/root/.m2
     environment:
       SPRING_PROFILES_ACTIVE: docker
     depends_on:
@@ -86,6 +92,8 @@ services:
       context: .
       dockerfile: Dockerfile-tgBot
     container_name: tg-bot
+    volumes:
+      - maven-repo:/root/.m2
     depends_on:
       discovery-service:
         condition: service_healthy
@@ -96,12 +104,15 @@ services:
       SPRING_PROFILES_ACTIVE: docker
     networks:
       - backend
+      - financeapp_redis-cluster
 
   gateway-service:
     build:
       context: .
       dockerfile: Dockerfile-gateway-service
     container_name: gateway-service
+    volumes:
+      - maven-repo:/root/.m2
     environment:
       SPRING_PROFILES_ACTIVE: docker
     depends_on:
@@ -120,6 +131,9 @@ services:
 
 volumes:
   postgresql: { }
+  maven-repo:
 
 networks:
   backend: { }
+  financeapp_redis-cluster:
+    external: true

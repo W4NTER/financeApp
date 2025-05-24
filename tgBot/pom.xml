@@ -13,8 +13,13 @@
     <version>${revision}</version>
 
     <dependencies>
+        <!-- redis -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
 
-        <!--logging starter-->
+        <!-- logging starter -->
         <dependency>
             <groupId>ru</groupId>
             <artifactId>starter_t1</artifactId>
