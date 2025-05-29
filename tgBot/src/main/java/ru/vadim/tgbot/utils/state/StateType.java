@@ -1,4 +1,4 @@
-package ru.vadim.tgbot.state;
+package ru.vadim.tgbot.utils.state;
 
 import lombok.Getter;
 
@@ -30,7 +30,8 @@ public enum StateType {
     ADD_ASSET(new String[]{}),
     ADD_LIABILITY(new String[]{}),
     REPORT(new String[]{}),
-    CHART_REPORT(MAIN_MENU.subMenuItems);
+    CHART_REPORT(MAIN_MENU.subMenuItems),
+    CHOOSE_REGION(MAIN_MENU.subMenuItems);
 
     private final String[] subMenuItems;
 

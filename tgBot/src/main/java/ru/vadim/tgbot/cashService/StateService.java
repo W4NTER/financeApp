@@ -1,6 +1,6 @@
 package ru.vadim.tgbot.cashService;
 
-import ru.vadim.tgbot.state.StateType;
+import ru.vadim.tgbot.utils.state.StateType;
 
 public interface StateService {
     String getState(Long chatId);

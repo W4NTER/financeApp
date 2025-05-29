@@ -8,5 +8,7 @@ import org.springframework.stereotype.Component;
 public interface Bot extends AutoCloseable {
     <T extends BaseRequest<T, R>, R extends BaseResponse> void execute(BaseRequest<T, R> request);
 
-    void start() throws InterruptedException;
+    void start();
+
+    void close();
 }

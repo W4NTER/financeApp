@@ -1,4 +1,4 @@
-package ru.vadim.tgbot.constants;
+package ru.vadim.tgbot.utils.constants;
 
 public class BotAnswersConstants {
     private BotAnswersConstants() {

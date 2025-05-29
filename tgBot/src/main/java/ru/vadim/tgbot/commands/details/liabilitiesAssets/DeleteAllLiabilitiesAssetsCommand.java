@@ -3,19 +3,20 @@ package ru.vadim.tgbot.commands.details.liabilitiesAssets;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
 import com.pengrad.telegrambot.request.SendMessage;
+import com.pengrad.telegrambot.response.SendResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.vadim.tgbot.client.LiabilitiesAssetsWebClient;
 import ru.vadim.tgbot.commands.Command;
-import ru.vadim.tgbot.state.StateType;
+import ru.vadim.tgbot.utils.state.StateType;
 
-import static ru.vadim.tgbot.constants.CommandsConstants.DELETE_ALL_LIABILITIES_ASSETS_COMMAND;
-import static ru.vadim.tgbot.constants.CommandsConstants.DELETE_ALL_LIABILITIES_ASSETS_COMMAND_DESCRIPTION;
-import static ru.vadim.tgbot.constants.Constants.ASSETS_LIABILITIES_MENU;
+import static ru.vadim.tgbot.utils.constants.CommandsConstants.DELETE_ALL_LIABILITIES_ASSETS_COMMAND;
+import static ru.vadim.tgbot.utils.constants.CommandsConstants.DELETE_ALL_LIABILITIES_ASSETS_COMMAND_DESCRIPTION;
+import static ru.vadim.tgbot.utils.constants.Constants.ASSETS_LIABILITIES_MENU;
 
 @Component
 @AllArgsConstructor
-public class DeleteAllLiabilitiesAssetsCommand implements Command {
+public class DeleteAllLiabilitiesAssetsCommand implements Command<SendMessage, SendResponse> {
     private final LiabilitiesAssetsWebClient liabilitiesAssetsWebClient;
 
     @Override
@@ -41,6 +42,6 @@ public class DeleteAllLiabilitiesAssetsCommand implements Command {
     @Override
     public SendMessage handle(Update update) {
         liabilitiesAssetsWebClient.deleteAllByChatId(update.message().chat().id());
-        return Command.super.handle(update);
+        return new SendMessage(update.message().chat().id(), post());
     }
 }

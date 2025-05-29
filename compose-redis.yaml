@@ -15,7 +15,9 @@ services:
       "--appendonly", "yes",
       "--bind", "0.0.0.0",
       "--protected-mode", "no",
-      "--port", "6379"
+      "--port", "6379",
+      "--maxmemory", "100mb",
+      "--maxmemory-policy", "allkeys-lru"
     ]
     networks:
       - redis-cluster
@@ -34,7 +36,9 @@ services:
       "--appendonly", "yes",
       "--bind", "0.0.0.0",
       "--protected-mode", "no",
-      "--port", "6379"
+      "--port", "6379",
+      "--maxmemory", "100mb",
+      "--maxmemory-policy", "allkeys-lru"
     ]
     networks:
       - redis-cluster
@@ -53,7 +57,9 @@ services:
       "--appendonly", "yes",
       "--bind", "0.0.0.0",
       "--protected-mode", "no",
-      "--port", "6379"
+      "--port", "6379",
+      "--maxmemory", "100mb",
+      "--maxmemory-policy", "allkeys-lru"
     ]
     networks:
       - redis-cluster
@@ -72,7 +78,9 @@ services:
       "--appendonly", "yes",
       "--bind", "0.0.0.0",
       "--protected-mode", "no",
-      "--port", "6379"
+      "--port", "6379",
+      "--maxmemory", "100mb",
+      "--maxmemory-policy", "allkeys-lru"
     ]
     networks:
       - redis-cluster
@@ -91,7 +99,9 @@ services:
       "--appendonly", "yes",
       "--bind", "0.0.0.0",
       "--protected-mode", "no",
-      "--port", "6379"
+      "--port", "6379",
+      "--maxmemory", "100mb",
+      "--maxmemory-policy", "allkeys-lru"
     ]
     networks:
       - redis-cluster
@@ -110,7 +120,9 @@ services:
       "--appendonly", "yes",
       "--bind", "0.0.0.0",
       "--protected-mode", "no",
-      "--port", "6379"
+      "--port", "6379",
+      "--maxmemory", "100mb",
+      "--maxmemory-policy", "allkeys-lru"
     ]
     networks:
       - redis-cluster

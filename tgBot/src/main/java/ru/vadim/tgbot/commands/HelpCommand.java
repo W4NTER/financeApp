@@ -1,7 +1,10 @@
 package ru.vadim.tgbot.commands;
 
+import com.pengrad.telegrambot.model.Update;
+import com.pengrad.telegrambot.request.BaseRequest;
+import com.pengrad.telegrambot.request.SendMessage;
 import org.springframework.stereotype.Component;
-import ru.vadim.tgbot.state.StateType;
+import ru.vadim.tgbot.utils.state.StateType;
 
 import java.util.List;
 
@@ -26,6 +29,11 @@ public class HelpCommand implements Command {
     @Override
     public StateType state() {
         return null;
+    }
+
+    @Override
+    public BaseRequest handle(Update update) {
+        return new SendMessage(update.message().chat().id(), post());
     }
 
     @Override

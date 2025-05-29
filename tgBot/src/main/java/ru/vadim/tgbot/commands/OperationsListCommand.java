@@ -5,21 +5,22 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
+import com.pengrad.telegrambot.response.SendResponse;
 import org.springframework.stereotype.Component;
 import ru.vadim.tgbot.client.OperationsWebClient;
 import ru.vadim.tgbot.dto.request.OperationDTO;
 import ru.vadim.tgbot.dto.response.CategoryDto;
 import ru.vadim.tgbot.cashService.CurrCategoryCashService;
-import ru.vadim.tgbot.state.StateType;
+import ru.vadim.tgbot.utils.state.StateType;
 
 import java.util.List;
 
-import static ru.vadim.tgbot.constants.CommandsConstants.OPERATIONS_LIST_COMMAND;
-import static ru.vadim.tgbot.constants.Constants.LOGGER;
-import static ru.vadim.tgbot.constants.Constants.OUTCOME_TYPE;
+import static ru.vadim.tgbot.utils.constants.CommandsConstants.OPERATIONS_LIST_COMMAND;
+import static ru.vadim.tgbot.utils.constants.Constants.LOGGER;
+import static ru.vadim.tgbot.utils.constants.Constants.OUTCOME_TYPE;
 
 @Component
-public class OperationsListCommand implements Command {
+public class OperationsListCommand implements Command<SendMessage, SendResponse> {
     private final OperationsWebClient operationsWebClient;
     private final ObjectMapper objectMapper;
     private final CurrCategoryCashService currCategoryCashService;

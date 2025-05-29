@@ -2,16 +2,15 @@ package ru.vadim.tgbot.commands;
 
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
-import com.pengrad.telegrambot.request.SendMessage;
-import org.springframework.stereotype.Component;
-import ru.vadim.tgbot.state.StateType;
+import com.pengrad.telegrambot.request.BaseRequest;
+import com.pengrad.telegrambot.response.BaseResponse;
+import ru.vadim.tgbot.utils.state.StateType;
 
 import java.util.Arrays;
 
-import static ru.vadim.tgbot.constants.Constants.*;
+import static ru.vadim.tgbot.utils.constants.Constants.*;
 
-@Component
-public interface Command {
+public interface Command <T extends BaseRequest<T, R>, R extends BaseResponse> {
     String command();
 
     String description();
@@ -25,11 +24,9 @@ public interface Command {
                 .resizeKeyboard(RESIZE_KEYBOARD);
     }
 
+    T handle(Update update);
+
     default String post() {
         return description();
-    }
-
-    default SendMessage handle(Update update) {
-        return new SendMessage(update.message().chat().id(), post()).replyMarkup(menu());
     }
 }

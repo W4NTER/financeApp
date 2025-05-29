@@ -6,11 +6,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.vadim.tgbot.client.LiabilitiesAssetsWebClient;
 import ru.vadim.tgbot.dto.request.LiabilitiesAssetsRequest;
-import ru.vadim.tgbot.state.StateType;
+import ru.vadim.tgbot.utils.state.StateType;
 
-import static ru.vadim.tgbot.constants.BotAnswersConstants.EVERYTHING_WRITE_BOT;
-import static ru.vadim.tgbot.constants.BotAnswersConstants.SOMETHING_WRONG_ANSWER_FROM_BOT;
-import static ru.vadim.tgbot.constants.Constants.LIABILITY_TYPE;
+import static ru.vadim.tgbot.utils.constants.BotAnswersConstants.EVERYTHING_WRITE_BOT;
+import static ru.vadim.tgbot.utils.constants.BotAnswersConstants.SOMETHING_WRONG_ANSWER_FROM_BOT;
+import static ru.vadim.tgbot.utils.constants.Constants.LIABILITY_TYPE;
 
 @Component
 @AllArgsConstructor

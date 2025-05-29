@@ -1,4 +1,4 @@
-package ru.vadim.tgbot.constants;
+package ru.vadim.tgbot.utils.constants;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

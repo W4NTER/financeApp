@@ -7,22 +7,22 @@ import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.model.request.KeyboardButton;
 import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
 import com.pengrad.telegrambot.request.SendMessage;
+import com.pengrad.telegrambot.response.SendResponse;
 import org.springframework.stereotype.Component;
 import ru.vadim.tgbot.client.CategoryWebClient;
-import ru.vadim.tgbot.client.FinanceAppWebClient;
 import ru.vadim.tgbot.commands.Command;
 import ru.vadim.tgbot.dto.CategoryDTO;
-import ru.vadim.tgbot.state.StateType;
+import ru.vadim.tgbot.utils.state.StateType;
 
 import java.util.List;
 
-import static ru.vadim.tgbot.constants.CommandsConstants.CATEGORY_LIST_COMMAND;
-import static ru.vadim.tgbot.constants.CommandsConstants.CATEGORY_LIST_COMMAND_DESCRIPTION;
-import static ru.vadim.tgbot.constants.Constants.MAIN_MENU_ARR;
-import static ru.vadim.tgbot.constants.Constants.RESIZE_KEYBOARD;
+import static ru.vadim.tgbot.utils.constants.CommandsConstants.CATEGORY_LIST_COMMAND;
+import static ru.vadim.tgbot.utils.constants.CommandsConstants.CATEGORY_LIST_COMMAND_DESCRIPTION;
+import static ru.vadim.tgbot.utils.constants.Constants.MAIN_MENU_ARR;
+import static ru.vadim.tgbot.utils.constants.Constants.RESIZE_KEYBOARD;
 
 @Component
-public class CategoryListCommand implements Command {
+public class CategoryListCommand implements Command<SendMessage, SendResponse> {
     private final CategoryWebClient categoryWebClient;
     private final ObjectMapper objectMapper;
     private KeyboardButton[][] buttons;
@@ -69,6 +69,6 @@ public class CategoryListCommand implements Command {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-        return Command.super.handle(update);
+        return new SendMessage(update.message().chat().id(), post());
     }
 }

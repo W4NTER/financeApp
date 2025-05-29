@@ -6,6 +6,7 @@ import ru.vadim.tgbot.bot.Bot;
 
 @Component
 public class Runner implements CommandLineRunner {
+    //Нужно убрать, если нужно куда-то задеплоить, запуск и завершение работы бота есть в админ панели
     private final Bot bot;
 
     public Runner(Bot bot) {

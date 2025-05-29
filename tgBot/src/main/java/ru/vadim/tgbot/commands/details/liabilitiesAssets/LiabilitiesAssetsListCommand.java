@@ -6,22 +6,23 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
 import com.pengrad.telegrambot.request.SendMessage;
+import com.pengrad.telegrambot.response.SendResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.vadim.tgbot.client.LiabilitiesAssetsWebClient;
 import ru.vadim.tgbot.commands.Command;
 import ru.vadim.tgbot.dto.request.LiabilitiesAssetsRequest;
-import ru.vadim.tgbot.state.StateType;
+import ru.vadim.tgbot.utils.state.StateType;
 
 import java.util.List;
 
-import static ru.vadim.tgbot.constants.CommandsConstants.LIABILITIES_ASSETS_COMMAND_LIST_DESCRIPTION;
-import static ru.vadim.tgbot.constants.CommandsConstants.LIABILITIES_ASSETS_LIST_COMMAND;
-import static ru.vadim.tgbot.constants.Constants.*;
+import static ru.vadim.tgbot.utils.constants.CommandsConstants.LIABILITIES_ASSETS_COMMAND_LIST_DESCRIPTION;
+import static ru.vadim.tgbot.utils.constants.CommandsConstants.LIABILITIES_ASSETS_LIST_COMMAND;
+import static ru.vadim.tgbot.utils.constants.Constants.*;
 
 @Component
 @AllArgsConstructor
-public class LiabilitiesAssetsListCommand implements Command {
+public class LiabilitiesAssetsListCommand implements Command<SendMessage, SendResponse> {
     private final LiabilitiesAssetsWebClient liabilitiesAssetsWebClient;
     private final ObjectMapper objectMapper;
 

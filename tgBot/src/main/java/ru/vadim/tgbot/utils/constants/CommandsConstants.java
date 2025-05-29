@@ -1,4 +1,6 @@
-package ru.vadim.tgbot.constants;
+package ru.vadim.tgbot.utils.constants;
+
+import org.apache.kafka.common.protocol.types.Field;
 
 @SuppressWarnings({"MultipleStringLiterals"})
 public class CommandsConstants {
@@ -62,4 +64,7 @@ public class CommandsConstants {
     public static final String EXCEL_REPORT_COMMAND = "Получить Excel документ";
     public static final String EXCEL_REPORT_COMMAND_DESCRIPTION =
             "Как только отчет будет готов, я пришлю его в чат";
+    public static final String REGION_COMMAND_DESCRIPTION = "Регион успешно сохранен";
+    public static final String UNKNOWN_COMMAND = "Несуществующая команда";
+    public static final String UNKNOWN_COMMAND_DESCRIPTION = "Такой команды не существует";
 }

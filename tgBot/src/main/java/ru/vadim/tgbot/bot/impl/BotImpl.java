@@ -10,6 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 import ru.vadim.tgbot.bot.Bot;
+import ru.vadim.tgbot.config.ApplicationConfiguration;
 import ru.vadim.tgbot.processor.UserMessageProcessor;
 
 import java.util.List;
@@ -18,15 +19,19 @@ import java.util.concurrent.Executors;
 
 @Component
 public class BotImpl implements Bot {
-    private final TelegramBot bot = new TelegramBot(System.getenv("TELEGRAM_API_KEY"));
+    private final TelegramBot bot;
     private final static Logger LOGGER = LogManager.getLogger();
     private final UserMessageProcessor userMessageProcessor;
     private final ExecutorService executorService = Executors.newFixedThreadPool(4);
     private static final int GET_UPDATES_LIMIT = 100;
     private static final int GET_UPDATES_TIMEOUT = 0;
 
-    public BotImpl(UserMessageProcessor userMessageProcessor) {
+    public BotImpl(
+            ApplicationConfiguration config,
+            UserMessageProcessor userMessageProcessor
+    ) {
         this.userMessageProcessor = userMessageProcessor;
+        bot = new TelegramBot(config.telegramToken());
     }
 
     @Override
@@ -59,6 +64,7 @@ public class BotImpl implements Bot {
     private void sendResponses(List<Update> updates) {
         try {
             for (Update update : updates) {
+                LOGGER.info("file id = {}", update.message().sticker().fileId());
                 bot.execute(userMessageProcessor.process(update));
             }
         } catch (Exception e) {
@@ -67,8 +73,9 @@ public class BotImpl implements Bot {
     }
 
     @Override
-    public void close() throws Exception {
+    public void close() {
         LOGGER.info("Bot stopped");
         executorService.shutdown();
+        bot.shutdown();
     }
 }

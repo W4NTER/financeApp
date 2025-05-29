@@ -8,12 +8,12 @@ import org.springframework.stereotype.Component;
 import ru.vadim.tgbot.client.CategoryWebClient;
 import ru.vadim.tgbot.dto.response.CategoryDto;
 import ru.vadim.tgbot.cashService.CashCategoriesService;
-import ru.vadim.tgbot.state.StateType;
+import ru.vadim.tgbot.utils.state.StateType;
 
-import static ru.vadim.tgbot.constants.BotAnswersConstants.EVERYTHING_WRITE_BOT;
-import static ru.vadim.tgbot.constants.BotAnswersConstants.SOMETHING_WRONG_ANSWER_FROM_BOT;
-import static ru.vadim.tgbot.constants.Constants.FORMAT_FOR_LOGGING_CHAT_ID;
-import static ru.vadim.tgbot.constants.Constants.LOGGER;
+import static ru.vadim.tgbot.utils.constants.BotAnswersConstants.EVERYTHING_WRITE_BOT;
+import static ru.vadim.tgbot.utils.constants.BotAnswersConstants.SOMETHING_WRONG_ANSWER_FROM_BOT;
+import static ru.vadim.tgbot.utils.constants.Constants.FORMAT_FOR_LOGGING_CHAT_ID;
+import static ru.vadim.tgbot.utils.constants.Constants.LOGGER;
 
 @Component
 public class AddCategoryHandler implements StateHandler {

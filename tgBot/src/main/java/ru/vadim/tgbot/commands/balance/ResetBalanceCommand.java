@@ -2,18 +2,19 @@ package ru.vadim.tgbot.commands.balance;
 
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
+import com.pengrad.telegrambot.response.SendResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.vadim.tgbot.client.BalanceWebClient;
 import ru.vadim.tgbot.commands.Command;
-import ru.vadim.tgbot.state.StateType;
+import ru.vadim.tgbot.utils.state.StateType;
 
-import static ru.vadim.tgbot.constants.CommandsConstants.RESET_BALANCE_COMMAND;
-import static ru.vadim.tgbot.constants.CommandsConstants.RESET_BALANCE_COMMAND_DESCRIPTION;
+import static ru.vadim.tgbot.utils.constants.CommandsConstants.RESET_BALANCE_COMMAND;
+import static ru.vadim.tgbot.utils.constants.CommandsConstants.RESET_BALANCE_COMMAND_DESCRIPTION;
 
 @Component
 @AllArgsConstructor
-public class ResetBalanceCommand implements Command {
+public class ResetBalanceCommand implements Command<SendMessage, SendResponse> {
     private final BalanceWebClient balanceWebClient;
 
     @Override
@@ -34,6 +35,6 @@ public class ResetBalanceCommand implements Command {
     @Override
     public SendMessage handle(Update update) {
         balanceWebClient.resetBalance(update.message().chat().id());
-        return Command.super.handle(update);
+        return new SendMessage(update.message().chat().id(), post());
     }
 }

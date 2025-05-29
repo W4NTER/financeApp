@@ -1,25 +1,22 @@
-FROM maven:3.9.6-eclipse-temurin-21 AS builder
+FROM eclipse-temurin:21-jdk AS builder
 
-RUN apt-get update && apt-get install -y git
+WORKDIR app
 
-RUN git clone https://github.com/W4NTER/starter_t1.git /build/starter_t1
+ARG JAR_FILE=tgBot/target/tgBot.jar
 
-WORKDIR /build/starter_t1
-RUN mvn clean install -DskipTests
+COPY ${JAR_FILE} app.jar
 
-COPY . /build/app
-WORKDIR /build/app
+RUN java -Djarmode=layertools -jar app.jar extract
 
-RUN mvn clean package -pl tgBot -am -DskipTests -X
 
-RUN ls -la /build/app/tgBot/target
+FROM eclipse-temurin:21-jdk
 
-FROM eclipse-temurin:21-jre AS runtime
+WORKDIR app
 
-WORKDIR /app
+COPY --from=builder app/spring-boot-loader/ ./
+COPY --from=builder app/dependencies/ ./
+COPY --from=builder app/snapshot-dependencies/ ./
+COPY --from=builder app/application/ ./
 
-COPY --from=builder /build/app/tgBot/target/*.jar app.jar
-
-ENTRYPOINT ["java", "-jar", "app.jar"]
-
+ENTRYPOINT ["java", "springframework.boot.loader.JarLauncher"]
 #docker run -d --name tgBot-app --network financeapp_backend -p port:port tgBot-app

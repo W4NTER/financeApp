@@ -7,11 +7,11 @@ import ru.vadim.tgbot.client.OperationsWebClient;
 import ru.vadim.tgbot.dto.request.OperationDTO;
 import ru.vadim.tgbot.dto.response.CategoryDto;
 import ru.vadim.tgbot.cashService.CurrCategoryCashService;
-import ru.vadim.tgbot.state.StateType;
+import ru.vadim.tgbot.utils.state.StateType;
 
-import static ru.vadim.tgbot.constants.BotAnswersConstants.EVERYTHING_WRITE_BOT;
-import static ru.vadim.tgbot.constants.BotAnswersConstants.WRONG_FORMAT_BOT;
-import static ru.vadim.tgbot.constants.Constants.*;
+import static ru.vadim.tgbot.utils.constants.BotAnswersConstants.EVERYTHING_WRITE_BOT;
+import static ru.vadim.tgbot.utils.constants.BotAnswersConstants.WRONG_FORMAT_BOT;
+import static ru.vadim.tgbot.utils.constants.Constants.*;
 
 @Component
 public class AddIncomeHandler implements StateHandler {

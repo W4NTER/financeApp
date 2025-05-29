@@ -2,6 +2,7 @@ package ru.vadim.tgbot.commands.handlers.stateHandlers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pengrad.telegrambot.model.Update;
+import com.pengrad.telegrambot.request.BaseRequest;
 import com.pengrad.telegrambot.request.SendMessage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,7 +11,7 @@ import ru.vadim.tgbot.cashService.CurrCategoryCashService;
 import ru.vadim.tgbot.client.CategoryWebClient;
 import ru.vadim.tgbot.commands.category.CategoryCommand;
 import ru.vadim.tgbot.dto.response.CategoryDto;
-import ru.vadim.tgbot.state.StateType;
+import ru.vadim.tgbot.utils.state.StateType;
 
 @Component
 public class CategoryListHandler implements StateHandler {
@@ -35,7 +36,7 @@ public class CategoryListHandler implements StateHandler {
 
     //TODO подумать как переписать в будущем,чтобы не кидать запрос на другой сервис, а брать все в кэше
     @Override
-    public SendMessage handle(Update update) {
+    public BaseRequest<?, ?> handle(Update update) {
         Long chatId = update.message().chat().id();
         try {
             currCategoryCashService.setCashCategory(

@@ -1,23 +1,22 @@
-FROM maven:3.9.6-eclipse-temurin-21 AS builder
+FROM eclipse-temurin:21-jdk AS builder
 
-RUN apt-get update && apt-get install -y git
+WORKDIR app
 
-RUN git clone https://github.com/W4NTER/starter_t1.git /build/starter_t1
+ARG JAR_FILE=finance/target/finance.jar
 
-WORKDIR /build/starter_t1
-RUN mvn clean install -DskipTests
+COPY ${JAR_FILE} app.jar
 
-COPY . /build/app
-WORKDIR /build/app
+RUN java -Djarmode=layertools -jar app.jar extract
 
-RUN mvn clean package -pl finance -am -DskipTests -X
 
-FROM eclipse-temurin:21-jre AS runtime
+FROM eclipse-temurin:21-jdk
 
-WORKDIR /app
+WORKDIR app
 
-COPY --from=builder /build/app/finance/target/*.jar app.jar
+COPY --from=builder app/spring-boot-loader/ ./
+COPY --from=builder app/dependencies/ ./
+COPY --from=builder app/snapshot-dependencies/ ./
+COPY --from=builder app/application/ ./
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
-
+ENTRYPOINT ["java", "springframework.boot.loader.JarLauncher"]
 #docker run -d --name finance-app --network financeapp_backend -p 8085:3000 finance-app

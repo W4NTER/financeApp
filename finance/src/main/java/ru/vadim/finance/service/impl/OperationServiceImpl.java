@@ -11,7 +11,6 @@ import ru.vadim.finance.entity.Operation;
 import ru.vadim.finance.exception.EntityNotFoundException;
 import ru.vadim.finance.repository.CategoryRepository;
 import ru.vadim.finance.repository.OperationRepository;
-import ru.vadim.finance.service.CalculateService;
 import ru.vadim.finance.service.OperationService;
 
 import java.time.OffsetDateTime;
@@ -25,7 +24,7 @@ public class OperationServiceImpl implements OperationService {
     private final OperationRepository operationRepository;
     private final CategoryRepository categoryRepository;
     private final ObjectMapper objectMapper;
-    private final CalculateService calculateService;
+    private final CalculateServiceImpl calculateServiceImpl;
     private static final Long MONTHS_TO_BE_LATE = 1L;
 
 
@@ -34,8 +33,8 @@ public class OperationServiceImpl implements OperationService {
     public OperationResponseDTO add(OperationRequestDTO operation) {
         var category = categoryRepository.findById(operation.categoryId())
                 .orElseThrow(() -> new EntityNotFoundException(Category.class.getSimpleName()));
-        new Thread(() -> calculateService.calculateBalance(category.getChat().getChatId())).start();
-        calculateService.calculateCategoryLimit(category, operation);
+        new Thread(() -> calculateServiceImpl.calculateBalance(category.getChat().getChatId())).start();
+        calculateServiceImpl.calculateCategoryLimit(category, operation);
         return objectMapper.convertValue(operationRepository.save(
                 new Operation(
                         operation.type(),

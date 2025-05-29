@@ -12,7 +12,7 @@ import ru.vadim.tgbot.cashService.CashCategoriesService;
 import java.time.Duration;
 import java.util.List;
 
-import static ru.vadim.tgbot.constants.Constants.LOGGER;
+import static ru.vadim.tgbot.utils.constants.Constants.LOGGER;
 
 @Service
 public class CashCategoriesServiceImpl implements CashCategoriesService {

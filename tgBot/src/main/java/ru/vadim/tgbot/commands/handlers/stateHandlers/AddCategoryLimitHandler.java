@@ -8,9 +8,9 @@ import ru.vadim.tgbot.dto.CategoryDTO;
 import ru.vadim.tgbot.dto.response.CategoryDto;
 import ru.vadim.tgbot.cashService.CashCategoriesService;
 import ru.vadim.tgbot.cashService.CurrCategoryCashService;
-import ru.vadim.tgbot.state.StateType;
+import ru.vadim.tgbot.utils.state.StateType;
 
-import static ru.vadim.tgbot.constants.Constants.LOGGER;
+import static ru.vadim.tgbot.utils.constants.Constants.LOGGER;
 
 @Component
 public class AddCategoryLimitHandler implements StateHandler {

@@ -16,8 +16,6 @@ import ru.vadim.tgbot.dto.request.ChartRequest;
 import ru.vadim.tgbot.dto.request.ExcelReportRequest;
 import ru.vadim.tgbot.dto.request.LimitNotificationRequest;
 
-import static ru.vadim.tgbot.constants.Constants.LOGGER;
-
 @RestController
 @AllArgsConstructor
 public class BotController {
