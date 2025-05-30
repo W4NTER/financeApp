@@ -55,3 +55,8 @@ logging:
   level:
     org.springframework.data.redis: DEBUG
     io.lettuce.core: DEBUG
+    io:
+      lettuce:
+        core:
+          protocol:
+            CommandHandler: TRACE

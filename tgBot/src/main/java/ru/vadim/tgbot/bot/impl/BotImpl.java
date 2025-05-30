@@ -64,11 +64,12 @@ public class BotImpl implements Bot {
     private void sendResponses(List<Update> updates) {
         try {
             for (Update update : updates) {
-                LOGGER.info("file id = {}", update.message().sticker().fileId());
+//                LOGGER.info("file id = {}", update.message().sticker().fileId());
                 bot.execute(userMessageProcessor.process(update));
             }
         } catch (Exception e) {
             LOGGER.info(e.getMessage());
+            LOGGER.info(e.getStackTrace());
         }
     }
 
