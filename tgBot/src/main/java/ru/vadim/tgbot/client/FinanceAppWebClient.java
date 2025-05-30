@@ -52,4 +52,9 @@ public class FinanceAppWebClient {
                 .bodyToMono(String.class)
                 .block();
     }
+
+    //TODO заглушка, сервер я еще не менял
+    public String setRegion(Long chatId, String region) {
+        return "Region added successfully";
+    }
 }

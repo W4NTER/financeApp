@@ -49,7 +49,7 @@ public class CalculateLiabilitiesAssetsCommand implements Command<SendMessage, S
             return new SendMessage(update.message().chat().id(), description() + res);
         } catch (Exception e) {
             LOGGER.info(String.format("ChatId = %s, %s", update.message().chat().id(), e.getMessage()));
-            return new SendMessage(update.message().chat().id(), "Что-то сломалось");
+            return new SendMessage(update.message().chat().id(), "Что-то сломалось").replyMarkup(menu());
         }
     }
 }

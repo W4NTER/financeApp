@@ -36,6 +36,6 @@ public class ChartCommand implements Command<SendMessage, SendResponse> {
     @Override
     public SendMessage handle(Update update) {
         financeAppWebClient.chartGenerate(update.message().chat().id());
-        return new SendMessage(update.message().chat().id(), post());
+        return new SendMessage(update.message().chat().id(), post()).replyMarkup(menu());
     }
 }

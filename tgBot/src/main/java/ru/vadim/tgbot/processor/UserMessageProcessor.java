@@ -7,4 +7,6 @@ import com.pengrad.telegrambot.request.SendMessage;
 
 public interface UserMessageProcessor {
    BaseRequest<?, ?> process(Update update);
+
+   BaseRequest<?, ?> processInlineRes(Update update);
 }

@@ -1,6 +1,8 @@
 package ru.vadim.tgbot.bot.impl;
 
 import com.pengrad.telegrambot.TelegramBot;
+import com.pengrad.telegrambot.model.ChosenInlineResult;
+import com.pengrad.telegrambot.model.InlineQuery;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.BaseRequest;
 import com.pengrad.telegrambot.request.GetUpdates;
@@ -64,12 +66,16 @@ public class BotImpl implements Bot {
     private void sendResponses(List<Update> updates) {
         try {
             for (Update update : updates) {
-//                LOGGER.info("file id = {}", update.message().sticker().fileId());
+                if (update.callbackQuery() != null) {
+                    LOGGER.info("activated inline menu");
+                    bot.execute(userMessageProcessor.processInlineRes(update));
+                    continue;
+                }
+                LOGGER.info("simple process working");
                 bot.execute(userMessageProcessor.process(update));
             }
         } catch (Exception e) {
-            LOGGER.info(e.getMessage());
-            LOGGER.info(e.getStackTrace());
+            LOGGER.info("Exception name = {}, stacktrace = {}", e.getMessage(), e.getStackTrace());
         }
     }
 

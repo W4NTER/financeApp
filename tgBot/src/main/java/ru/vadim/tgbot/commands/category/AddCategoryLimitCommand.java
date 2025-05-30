@@ -38,6 +38,6 @@ public class AddCategoryLimitCommand implements Command<SendMessage, SendRespons
 
     @Override
     public SendMessage handle(Update update) {
-        return new SendMessage(update.message().chat().id(), post());
+        return new SendMessage(update.message().chat().id(), post()).replyMarkup(menu());
     }
 }

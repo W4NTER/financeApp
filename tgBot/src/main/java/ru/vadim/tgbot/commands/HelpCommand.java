@@ -33,7 +33,7 @@ public class HelpCommand implements Command {
 
     @Override
     public BaseRequest handle(Update update) {
-        return new SendMessage(update.message().chat().id(), post());
+        return new SendMessage(update.message().chat().id(), post()).replyMarkup(menu());
     }
 
     @Override

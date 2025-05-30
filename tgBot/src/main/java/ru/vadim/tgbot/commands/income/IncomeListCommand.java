@@ -62,13 +62,13 @@ public class IncomeListCommand implements Command<SendMessage, SendResponse> {
                             .findAllOperationsByCategory(category.categoryId()), new TypeReference<>() {});
             LOGGER.info(String.format("chatId = %s, operations: %s", chatId, operations));
             if (operations.isEmpty()) {
-                return new SendMessage(chatId, "Вы пока не добавили никаких доходов").replyMarkup(this.menu());
+                return new SendMessage(chatId, "Вы пока не добавили никаких доходов").replyMarkup(menu());
             }
             String request = createRequest(operations);
-            return new SendMessage(chatId, request).replyMarkup(this.menu());
+            return new SendMessage(chatId, request).replyMarkup(menu());
         } catch (JsonProcessingException e) {
             LOGGER.info(e.getMessage());
-            return new SendMessage(chatId, "Что-то сломалось").replyMarkup(this.menu());
+            return new SendMessage(chatId, "Что-то сломалось").replyMarkup(menu());
         }
     }
 

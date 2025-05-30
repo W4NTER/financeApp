@@ -31,6 +31,6 @@ public class UnknownCommand implements Command<SendMessage, SendResponse> {
     @Override
     public SendMessage handle(Update update) {
         Long chatId = update.message().chat().id();
-        return new SendMessage(chatId, post());
+        return new SendMessage(chatId, post()).replyMarkup(menu());
     }
 }

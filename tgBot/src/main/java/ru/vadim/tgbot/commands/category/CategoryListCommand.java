@@ -69,6 +69,6 @@ public class CategoryListCommand implements Command<SendMessage, SendResponse> {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-        return new SendMessage(update.message().chat().id(), post());
+        return new SendMessage(update.message().chat().id(), post()).replyMarkup(menu());
     }
 }

@@ -7,7 +7,6 @@ import com.pengrad.telegrambot.request.SendMessage;
 import org.springframework.stereotype.Component;
 import ru.vadim.tgbot.cashService.StateService;
 import ru.vadim.tgbot.commands.Command;
-import ru.vadim.tgbot.commands.UnknownCommand;
 import ru.vadim.tgbot.commands.handlers.stateHandlers.StateHandler;
 import ru.vadim.tgbot.commands.handlers.stateHandlers.UnknownCommandHandler;
 import ru.vadim.tgbot.utils.state.StateType;
@@ -65,6 +64,25 @@ public class UserMessageProcessorImpl implements UserMessageProcessor {
         }
     }
 
+    @Override
+    public BaseRequest<?, ?> processInlineRes(Update update) {
+        var command = commands.get("/set_region");
+        Long chatId = update.callbackQuery().from().id();
+        StateType state = command.state();
+        stateService.setState(chatId, state);
+
+        try {
+            return command.handle(update);
+        } catch (Exception e) {
+            LOGGER.info(e.getMessage());
+            LOGGER.info(e.getStackTrace());
+            return new SendMessage(chatId, "Что-то сломалось").replyMarkup(
+                    new ReplyKeyboardMarkup(StateType.MAIN_MENU.getSubMenuItems(), MAIN_MENU_ARR)
+                            .resizeKeyboard(RESIZE_KEYBOARD)
+            );
+        }
+    }
+
     private SendMessage commandToServer(String state, Update update) {
         return processState(state, update);
     }
@@ -76,6 +94,7 @@ public class UserMessageProcessorImpl implements UserMessageProcessor {
                 .map(handler -> {
                     BaseRequest<?, ?> request = handler.handle(update);
                     if (request instanceof SendMessage sm) {
+                        LOGGER.info(sm.getContentType());
                         return sm;
                     }
                     throw new IllegalStateException("Handler must return SendMessage");

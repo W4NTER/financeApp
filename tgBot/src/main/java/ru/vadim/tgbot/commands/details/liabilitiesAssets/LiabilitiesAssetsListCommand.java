@@ -54,10 +54,10 @@ public class LiabilitiesAssetsListCommand implements Command<SendMessage, SendRe
                     objectMapper.readValue(liabilitiesAssetsWebClient.findAllByChatId(chatId),
                             new TypeReference<>() {});
 
-            return new SendMessage(chatId, createRequest(listObj));
+            return new SendMessage(chatId, createRequest(listObj)).replyMarkup(menu());
         } catch (JsonProcessingException e) {
             LOGGER.info(String.format("ChatId = %s, %s", chatId, e.getMessage()));
-            return new SendMessage(chatId, "Что-то сломалось");
+            return new SendMessage(chatId, "Что-то сломалось").replyMarkup(menu());
         }
     }
 

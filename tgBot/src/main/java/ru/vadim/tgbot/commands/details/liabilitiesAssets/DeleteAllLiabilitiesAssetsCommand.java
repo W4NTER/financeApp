@@ -42,6 +42,6 @@ public class DeleteAllLiabilitiesAssetsCommand implements Command<SendMessage, S
     @Override
     public SendMessage handle(Update update) {
         liabilitiesAssetsWebClient.deleteAllByChatId(update.message().chat().id());
-        return new SendMessage(update.message().chat().id(), post());
+        return new SendMessage(update.message().chat().id(), post()).replyMarkup(menu());
     }
 }

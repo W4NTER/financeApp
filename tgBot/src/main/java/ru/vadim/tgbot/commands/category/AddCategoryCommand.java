@@ -32,6 +32,6 @@ public class AddCategoryCommand implements Command<SendMessage, SendResponse> {
 
     @Override
     public SendMessage handle(Update update) {
-        return new SendMessage(update.message().chat().id(), post());
+        return new SendMessage(update.message().chat().id(), post()).replyMarkup(menu());
     }
 }

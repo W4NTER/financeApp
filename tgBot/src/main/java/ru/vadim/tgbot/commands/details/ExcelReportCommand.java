@@ -37,6 +37,6 @@ public class ExcelReportCommand implements Command<SendMessage, SendResponse> {
     public SendMessage handle(Update update) {
         financeAppWebClient.excelReport(update.message().chat().id());
 
-        return new SendMessage(update.message().chat().id(), post());
+        return new SendMessage(update.message().chat().id(), post()).replyMarkup(menu());
     }
 }
