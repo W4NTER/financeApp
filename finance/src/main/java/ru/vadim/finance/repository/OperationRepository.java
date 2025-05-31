@@ -10,10 +10,10 @@ import java.util.List;
 
 public interface OperationRepository extends JpaRepository<Operation, Long> {
 
-    @Query("select o from Operation o where o.category.categoryId = :category_id")
+    @Query("select o from Operation o where o.category.id = :category_id")
     List<Operation> findAllByCategoryId(@Param("category_id") Long categoryId);
 
-    @Query("select o from Operation o where o.type = :type and o.category.categoryId = :category_id")
+    @Query("select o from Operation o where o.type = :type and o.category.id = :category_id")
     List<Operation> findAllByTypeAndCategoryId(
             @Param("type") String type,
             @Param("category_id") Long categoryId);

@@ -94,7 +94,7 @@ public class UserMessageProcessorImpl implements UserMessageProcessor {
                 .map(handler -> {
                     BaseRequest<?, ?> request = handler.handle(update);
                     if (request instanceof SendMessage sm) {
-                        LOGGER.info(sm.getContentType());
+                        LOGGER.info("send message = {}", sm.getContentType());
                         return sm;
                     }
                     throw new IllegalStateException("Handler must return SendMessage");

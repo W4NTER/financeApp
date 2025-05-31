@@ -65,7 +65,7 @@ public class ExcelReportServiceImpl implements ExcelReportService {
 
         for (Category category : categories) {
             Map<String, Map<String, Integer>> groupedOperations =
-                    operationService.groupOperationsByDateAndType(category.getCategoryId());
+                    operationService.groupOperationsByDateAndType(category.getId());
 
             for (var dateEntry : groupedOperations.entrySet()) {
                 String date = dateEntry.getKey();

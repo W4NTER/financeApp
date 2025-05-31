@@ -10,11 +10,9 @@ import ru.vadim.finance.dto.request.LiabilitiesAssetsRequest;
 import ru.vadim.finance.dto.response.LiabilitiesAssetsResponse;
 import ru.vadim.finance.entity.Chat;
 import ru.vadim.finance.entity.LiabilitiesAssets;
-import ru.vadim.finance.exception.EntityAlreadyExistsException;
 import ru.vadim.finance.exception.EntityNotFoundException;
 import ru.vadim.finance.repository.ChatRepository;
 import ru.vadim.finance.repository.LiabilitiesAssetsRepository;
-import ru.vadim.finance.service.ChatService;
 import ru.vadim.finance.service.LiabilitiesAssetsService;
 
 import java.time.OffsetDateTime;

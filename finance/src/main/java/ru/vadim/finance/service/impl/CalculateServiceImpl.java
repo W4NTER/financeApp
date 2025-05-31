@@ -7,10 +7,10 @@ import ru.vadim.finance.client.BotClient;
 import ru.vadim.finance.dto.request.LimitNotificationRequest;
 import ru.vadim.finance.dto.request.OperationRequestDTO;
 import ru.vadim.finance.dto.response.OperationResponseDTO;
-import ru.vadim.finance.entity.Balance;
+import ru.vadim.finance.entity.Budget;
 import ru.vadim.finance.entity.Category;
 import ru.vadim.finance.exception.EntityNotFoundException;
-import ru.vadim.finance.repository.BalanceRepository;
+import ru.vadim.finance.repository.BudgetRepository;
 import ru.vadim.finance.repository.CategoryRepository;
 import ru.vadim.finance.repository.OperationRepository;
 import ru.vadim.finance.service.CategoryService;
@@ -23,7 +23,7 @@ import java.util.List;
 public class CalculateServiceImpl {
     private CategoryService categoryService;
     private OperationRepository operationRepository;
-    private BalanceRepository balanceRepository;
+    private BudgetRepository budgetRepository;
     private BotClient botClient;
     private CategoryRepository categoryRepository;
     private ObjectMapper objectMapper;
@@ -41,14 +41,14 @@ public class CalculateServiceImpl {
                                         objectMapper
                                                 .convertValue(operation, OperationResponseDTO.class)))
                 .toList();
-        var balance = balanceRepository.findBalanceByChatId(chatId).orElseThrow(() ->
-                new EntityNotFoundException(Balance.class.getSimpleName()));
+        var balance = budgetRepository.findBalanceByChatId(chatId).orElseThrow(() ->
+                new EntityNotFoundException(Budget.class.getSimpleName()));
         int newSum = balance.getSum();
         newSum += operations.stream()
                 .mapToInt(op -> op.type().equals(OPERATION_TYPE) ? -op.sum() : op.sum())
                 .sum();
         balance.setSum(newSum);
-        balanceRepository.save(balance);
+        budgetRepository.save(balance);
     }
 
     public void calculateCategoryLimit(Category category, OperationRequestDTO operation) {
@@ -64,7 +64,7 @@ public class CalculateServiceImpl {
                 botClient.sendLimitNotification(
                         new LimitNotificationRequest(
                                 category.getChat().getChatId(),
-                                category.getCategoryId(),
+                                category.getId(),
                                 category.getTitle()
                         )
                 );

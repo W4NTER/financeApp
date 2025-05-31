@@ -12,4 +12,6 @@ public interface ChatService {
     List<ChatResponseDTO> findAll();
 
     ChatResponseDTO setStatus(Long chatId, Boolean status);
+
+    ChatResponseDTO getByChatId(Long chatId);
 }

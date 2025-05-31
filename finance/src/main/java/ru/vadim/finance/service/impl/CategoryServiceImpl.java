@@ -8,7 +8,6 @@ import ru.vadim.finance.dto.response.CategoryResponseDTO;
 import ru.vadim.finance.entity.Category;
 import ru.vadim.finance.entity.Chat;
 import ru.vadim.finance.entity.Operation;
-import ru.vadim.finance.exception.EntityAlreadyExistsException;
 import ru.vadim.finance.exception.EntityNotFoundException;
 import ru.vadim.finance.repository.CategoryRepository;
 import ru.vadim.finance.repository.ChatRepository;

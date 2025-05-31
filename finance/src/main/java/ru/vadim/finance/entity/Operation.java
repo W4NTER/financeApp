@@ -2,28 +2,22 @@ package ru.vadim.finance.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
 import java.time.OffsetDateTime;
 
 @Entity
-@Getter
-@Setter
-@RequiredArgsConstructor
+@Table(name = "operation")
 public class Operation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "operation_id")
-    private Long operationId;
+    private Long id;
 
     @Column(name = "type")
     private String type;
 
-    @Column(name = "title")
-    private String title;
+    @Column(name = "description")
+    private String description;
 
     @Column(name = "sum")
     private Integer sum;
@@ -42,11 +36,58 @@ public class Operation {
             Integer sum,
             OffsetDateTime createdAt,
             Category category,
-            String title) {
+            String description) {
         this.type = type;
         this.sum = sum;
         this.createdAt = createdAt;
         this.category = category;
-        this.title = title;
+        this.description = description;
+    }
+
+    public Operation() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Integer getSum() {
+        return sum;
+    }
+
+    public void setSum(Integer sum) {
+        this.sum = sum;
+    }
+
+    public OffsetDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(OffsetDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }
